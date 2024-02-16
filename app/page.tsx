@@ -1,4 +1,11 @@
-import Image from "next/image";
+import { FaFileArrowUp } from "react-icons/fa6";
+import { FaYoutube } from "react-icons/fa6";
+import { FaFacebookF } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
+
+
 
 export default function Home() {
   return (
@@ -33,12 +40,17 @@ export default function Home() {
             <h1 className="[font-family:var(--primary-font)] text-4xl font-bold">Upload Document</h1>
             <h4 className="[font-family:var(--primary-font)] mb-8">Summarize your way, in seconds.</h4>
             <div className="flex mb-10">
-              <div className="[background:var(--font-primary)] border-b-2 [border-color:var(--bg-secondary)] p-2 text-center px-24 cursor-pointer">PDF, Docx, or text file</div>
+              <div className="[background:var(--font-primary)] border-b-2 [border-color:var(--bg-secondary)] p-2 text-center px-24 cursor-pointer flex items-center"> 
+              <span className=" mr-3 text-2xl">
+                <FaFileArrowUp />
+              </span> 
+                PDF, Docx, or text file
+              </div>
               <button className="border-2 [background:var(--button-color)] [border-color:var(--button-color)] [color:var(--font-primary)] [font-family:var(--primary-font)] p-1 px-3 ml-2">Upload</button>
             </div>
             <div className="flex justify-start flex-col items-start w-full mb-10">
               <p>Save as</p>
-              <input type="text" placeholder="Placeholder" className="[background:var(--font-primary)] border-b-2 [border-color:var(--bg-secondary)] p-2 text-start w-full cursor-pointer"/>
+              <input type="text" placeholder="Placeholder" className="[background:var(--font-primary)] border-b-2 [border-color:var(--bg-secondary)] p-2 text-start w-full"/>
             </div>
             <div className="flex justify-between border-2 [border-color:var(--bg-secondary)] mb-16">
               <div className="flex items-center border-r-2 [border-color:var(--bg-secondary)] p-1 px-5">
@@ -71,9 +83,12 @@ export default function Home() {
                   <li>Fourteen</li>
                 </ul>
               </div>
-              <div className="mr-12">
-                ICONS
-                {/* icons go here */}
+              <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
+                <a href="#"><span className="d text-1xl"><FaYoutube /></span></a>
+                <a href="#"><span className="d text-1xl"><FaFacebookF /></span></a>
+                <a href="#"><span className="d text-1xl"><FaTwitter /></span></a>
+                <a href="#"><span className="d text-1xl"><FaInstagram /></span></a>
+                <a href="#"><span className="d text-1xl"><FaLinkedinIn /></span></a>
               </div>
             </div>
             <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
