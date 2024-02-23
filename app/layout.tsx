@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PDFTDLR",
+  title: "PDFTLDR",
   description: "Simplify your PDFs",
 };
 

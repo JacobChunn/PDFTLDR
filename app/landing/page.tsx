@@ -12,7 +12,7 @@ export default function LandingPage() {
       {/* Navbar */}
       <header className="fixed top-0 w-full bg-white text-black p-4 border-b-2 flex justify-between items-center z-10">
         <div className="ml-8">
-          <h1>PDFTDLR</h1>
+          <h1>PDFTLDR</h1>
         </div>
         <div className="flex-grow flex justify-center">
           <ul className="flex gap-[40px]">
@@ -149,7 +149,7 @@ export default function LandingPage() {
       <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
         <div className="flex items-center justify-between">
           <div className="p-4 ml-8">
-            <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
+            <h3 className="[color:var(--font-primary)] ">PDFTLDR</h3>
           </div>
           <div>
             <ul className="flex gap-[12px] [color:var(--font-primary)]">
@@ -168,7 +168,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
-          <p>PDFTDLR @2024. All rights reserved.</p>
+          <p>PDFTLDR @2024. All rights reserved.</p>
         </div>
       </footer>
     </div>
