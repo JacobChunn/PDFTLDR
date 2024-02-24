@@ -7,11 +7,13 @@
 
 
 :root {
-  --bg-primary: #F2F4F8;
-  --bg-secondary: #697077;
-  --font-primary: #C1C7CD;
-  --button-color: #0F62FE;
+  --color-background-grey: #F2F4F8; /* Main background */
+  --color-grey: #697077; 
+  --color-dark-grey: #4B5563;
+  --color-white: #FFFFFF;
+  --color-light-grey: #C1C7CD;
+  --color-black: #000000;
+  --color-blue: #0F62FE;
   --primary-font: "IBM+Plex+Mono", "Courier New", Courier, monospace;
   --secondary-font: "Roboto";
 }
-
