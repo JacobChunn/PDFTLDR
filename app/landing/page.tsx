@@ -152,7 +152,7 @@ export default function LandingPage() {
       <footer className="flex flex-col justify-evenly [background:var(--color-dark-grey)] h-[150px]">
         <div className="flex items-center justify-between">
           <div className="p-4 ml-8">
-            <h3 className="[color:var(--color-light-grey)] ">PDFTDLR</h3>
+            <h3 className="[color:var(--color-light-grey)] ">PDFTLDR</h3>
           </div>
           <div>
             <ul className="flex gap-[12px] [color:var(--color-light-grey)]">
@@ -171,7 +171,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="my-8 flex items-center justify-center text-xs [color:var(--color-light-grey)]">
-          <p>PDFTDLR @2024. All rights reserved.</p>
+          <p>PDFTLDR @2024. All rights reserved.</p>
         </div>
       </footer>
     </div>
