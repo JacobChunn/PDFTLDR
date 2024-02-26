@@ -22,8 +22,8 @@ export default function Profile() {
         <div>
             {/* navbar */}
             <header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
-                <div className="ml-8">
-                    <h1>PDFTLDR</h1>
+                <div className="ml-8 [font-family:var(--primary-font)]">
+                    <h1>PDF:TLDR</h1>
                 </div>
                 <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
                     <ul className="flex gap-[40px]">
@@ -58,7 +58,7 @@ export default function Profile() {
                         {/* Profile Photo Placeholder and Upload Button */}
                         <div className="flex items-center mb-6">
                             <div className="[background:var(--color-background-grey)] rounded-full flex items-center justify-center mr-6" style={{ width: "150px", height: "150px", borderRadius: "50%" }}>
-                                <img src="profile_image_placeholder.png" alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                <img src="guy.png" alt="Profile" className="w-full h-full object-cover rounded-full" />
                             </div>
                             {/* Upload Photo Button */}
 
@@ -135,12 +135,12 @@ export default function Profile() {
                 <div className="w-2/3 min-h-screen [background:var(--color-background-grey)]">
 
                     {/* My Summaries Header */}
-                    <div className="p-4 mt-20">
-                        <h2 className="text-5xl font-bold mb-10">My Summaries</h2>
+                    <div className="p-4 mt-20 ml-8">
+                        <h2 className="text-5xl font-bold mb-10 [font-family:var(--primary-font)]">My Summaries</h2>
                         
                         {/* Documents Header and Search Box */}
                         <div className="flex justify-between items-center">
-                            <h3 className="font-bold text-xl">Documents</h3>
+                            <h3 className="font-bold text-xl text-gray-600">Documents</h3>
 
                             {/* Search Box */}
                             <div className="relative">
@@ -153,11 +153,11 @@ export default function Profile() {
                     </div>
 
                     {/* Additional Box */}
-                    <div className="mt-6 p-4 border border-gray-400">
+                    <div className="mt-6 pt-4  border border-gray-400">
 
                         {/* Section Headers */}
                         <div className="flex">
-                            <div className="mb-4 w-full">
+                            <div className=" w-full">
                                 <div className="ml-10">
                                     <input type="checkbox" style={{ width: '30px', height: '30px' }} disabled/>
                                 </div>
@@ -166,20 +166,15 @@ export default function Profile() {
                                 <h3 className="font-bold">Name</h3>
                             </div>
                             <div className="mb-4 w-full">
-                                <h3 className="font-bold">Section 2</h3>
+                                <h3 className="font-bold">Date created</h3>
                             </div>
+
+
+
                             <div className="mb-4 w-full">
-                                <h3 className="font-bold">Section 3</h3>
+                                <h3 className="font-bold">Original File type</h3>
                             </div>
-                            <div className="mb-4 w-full">
-                                <h3 className="font-bold">Section 4</h3>
-                            </div>
-                            <div className="mb-4 w-full">
-                                <h3 className="font-bold">Section 5</h3>
-                            </div>
-                            <div className="mb-4 w-full">
-                                <h3 className="font-bold">Section 6</h3>
-                            </div>
+
                         </div>
 
                         {/* Sample is for looks (Can and will change, just here to vizualize) */}
@@ -193,18 +188,12 @@ export default function Profile() {
                                 <div className="mb-4 w-full">
                                     <h3 className="font-bold">Sample</h3>
                                 </div>
+
+
                                 <div className="mb-4 w-full">
                                     <h3 className="font-bold">Sample</h3>
                                 </div>
-                                <div className="mb-4 w-full">
-                                    <h3 className="font-bold">Sample</h3>
-                                </div>
-                                <div className="mb-4 w-full">
-                                    <h3 className="font-bold">Sample</h3>
-                                </div>
-                                <div className="mb-4 w-full">
-                                    <h3 className="font-bold">Sample</h3>
-                                </div>
+
                                 <div className="mb-4 w-full">
                                     <h3 className="font-bold">Sample</h3>
                                 </div>
