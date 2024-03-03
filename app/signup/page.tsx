@@ -9,15 +9,29 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
+import { addUser } from '../lib/actions';
+import { useFormState } from 'react-dom';
+import { UserFormData, UserState } from '../lib/definitions';
+import InputWrapper from '../components/input-wrapper';
 
 export default function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [firstName, setFirstName] = useState('');
+	const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+	const initalFormData: UserFormData = {
+		firstname: null,
+		lastname: null,
+		username: null,
+		password: null
+	}
+
+	const [formData, setFormData] = useState(initalFormData);
+
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -30,22 +44,30 @@ export default function SignUp() {
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
+		console.log("Submit Clicked!")
+
     // Check if password meets the minimum length requirement
-    if (password.length < 8) {
-      setPasswordError('Password must be a combination of minimum 8 characters');
-      return;
-    }
+    // if (password.length < 8) {
+    //   setPasswordError('Password must be a combination of minimum 8 characters');
+    //   return;
+    // }
 
     // Check if all fields are filled in and the checkbox is checked
-    if (firstName && lastName && username && password && rememberMe) {
+    // if ( firstName && lastName && username && password && rememberMe) {
       const redirectUrl = "/landing"; // Change this to your desired URL
 
+			console.log(formData)
+
+			const errors = addUser(formData);
+
+			console.log(errors);
+
       // Redirect to the specified URL
-      window.location.href = redirectUrl;
-    } else {
+     // window.location.href = redirectUrl;
+    // } else {
       // Show an alert if any field is missing
-      alert("Please fill in all fields and accept the terms.");
-    }
+    //   alert("Please fill in all fields and accept the terms.");
+    // }
   };
 
   return (
@@ -95,31 +117,25 @@ export default function SignUp() {
                   <div className="flex justify-between">
                     {/* First Name input */}
                     <div className="w-[calc(50% - 5px)]">
-                      <label htmlFor="firstName" className="block font-medium">
+                      <label htmlFor="firstname" className="block font-medium">
                         First Name
                       </label>
-                      <input
-                          type="text"
-                          id="firstName"
-                          className="w-full border rounded-md px-3 py-2 mt-1"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          required
+                      <InputWrapper
+                          id="firstname"
+													styles="w-full border rounded-md px-3 py-2 mt-1"
+													formSetter={setFormData}
                       />
                     </div>
                     <div className="w-10" />
                     {/* Last Name input */}
                     <div className="w-[calc(50% - 5px)]">
-                      <label htmlFor="lastName" className="block font-medium">
+                      <label htmlFor="lastname" className="block font-medium">
                         Last Name
                       </label>
-                      <input
-                          type="text"
-                          id="lastName"
-                          className="w-full border rounded-md px-3 py-2 mt-1"
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                          required
+                      <InputWrapper
+                          id="lastname"
+                          styles="w-full border rounded-md px-3 py-2 mt-1"
+													formSetter={setFormData}
                       />
                     </div>
                   </div>
@@ -128,13 +144,10 @@ export default function SignUp() {
                     <label htmlFor="username" className="block font-medium">
                       Username
                     </label>
-                    <input
-                        type="text"
+                    <InputWrapper
                         id="username"
-                        className="w-full border rounded-md px-3 py-2 mt-1"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
+                        styles="w-full border rounded-md px-3 py-2 mt-1"
+												formSetter={setFormData}
                     />
                   </div>
                   {/* Password input */}
@@ -142,13 +155,11 @@ export default function SignUp() {
                     <label htmlFor="password" className="block font-medium">
                       Password
                     </label>
-                    <input
+                    <InputWrapper
                         type={passwordVisible ? "text" : "password"}
                         id="password"
-                        className="w-full border rounded-md px-3 py-2 mt-1 pr-10"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
+                        styles="w-full border rounded-md px-3 py-2 mt-1 pr-10"
+												formSetter={setFormData}
                     />
                     {/* Eye icon */}
                     <button
@@ -161,17 +172,6 @@ export default function SignUp() {
                   </div>
                   {/* Password criteria */}
                   {passwordError && <p className="text-sm text-red-500 mt-1 ml-1">{passwordError}</p>}
-                  {/* Remember me checkbox */}
-                  <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        id="rememberMe"
-                        className="mr-2 h-5 w-5"
-                        checked={rememberMe}
-                        onChange={toggleRememberMe}
-                    />
-                    <label htmlFor="rememberMe">I am not a robot</label>
-                  </div>
                   {/* Sign-up button */}
                   <button
                       type="submit"
