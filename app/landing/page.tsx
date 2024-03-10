@@ -6,6 +6,7 @@ import { FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 
+
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
