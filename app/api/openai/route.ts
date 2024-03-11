@@ -10,24 +10,59 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
   const bodyBuffer = await new Response(request.body).arrayBuffer();
-  const bodyString = new TextDecoder("utf-8").decode(bodyBuffer);
+  const bodyJSON = new TextDecoder("utf-8").decode(bodyBuffer);
+  const body = JSON.parse(bodyJSON);
 
-  console.log(bodyString);
+  const { option, text } = body;
 
-  try {
-    const completion = await openai.chat.completions.create({
-      messages: [
-        { role: "system", content: "summarize this text:\n" + bodyString },
-      ],
-      model: "gpt-3.5-turbo",
-    });
+  console.log(text);
 
-    const summary = completion.choices[0].message.content;
-    console.log(`Summary: ${summary}`);
+  let prompt = "";
 
-    const response = new Response(JSON.stringify(summary));
-    return response;
-  } catch (e) {
-    console.error(e);
+  switch (option) {
+    case "Paragraph":
+      prompt = "summarize this text with a paragraph:\n";
+      break;
+    case "Bullet Points":
+      prompt = "summarize this text with bullet points:\n ";
+      break;
+    case "Sentence":
+      prompt = "summarize this text with sentence:\n";
+      break;
+    default:
+      prompt = "summarize this text with a paragraph:\n";
+      break;
   }
+
+  const chatGPTapiCall = async (prompt: string, text: string) => {
+    try {
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "system", content: prompt + text }],
+        model: "gpt-3.5-turbo",
+      });
+
+      const summary = completion.choices[0].message.content;
+
+      // if (option === "Bullet Points") {
+      //   //@ts-ignore
+      //   for (let i = 0; i < summary.length; i++) {
+      //     if (summary[i] === "\n") {
+      //       summary = summary.slice(0, i) + " " + summary.slice(i + 1);
+      //     }
+      //   }
+      // }
+
+      console.log(`Summary: ${summary}`);
+
+      return new Response(JSON.stringify(summary));
+    } catch (e) {
+      console.error(e);
+
+      return new Response(JSON.stringify("ChatGPT API call failed."));
+    }
+  };
+
+  const response = await chatGPTapiCall(prompt, text);
+
+  return response;
 }

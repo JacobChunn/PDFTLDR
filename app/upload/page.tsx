@@ -16,8 +16,8 @@ export default function Upload() {
   );
   const [fileName, setFileName] = useState("PDF, Docx, or text file");
   const [text, setText] = useState("");
+  const [summaryType, setSummaryType] = useState("Paragraph");
 
-  console.log("preview file:", previewURL);
   // @ts-ignore
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -36,8 +36,6 @@ export default function Upload() {
       const formData = new FormData();
       formData.append("file", file);
 
-      
-
       const res = await axios.post("./api/parser", formData);
 
       const { data } = res;
@@ -46,25 +44,26 @@ export default function Upload() {
     } else {
       console.log("No file is present");
     }
-
-    
   };
 
-
-  const handleSummarize = async () => { 
-    if(text == "") {
+  const handleSummarize = async () => {
+    if (text == "") {
       console.log("No text to summarize");
       return;
     }
-    
-    const res = await axios.post("./api/openai", text);
 
-    const blob = new Blob([JSON.stringify(res.data)], { type: 'text/plain' });
+    const GPTapiRequestData = {
+      option: summaryType,
+      text: text,
+    };
+
+    const res = await axios.post("./api/openai", GPTapiRequestData);
+
+    const blob = new Blob([JSON.stringify(res.data)], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
 
     setPreviewURL(url);
-
-  }
+  };
   return (
     <div className="flex flex-col min-h-screen">
       <section className="[background:var(--color-background-grey)] flex-grow">
@@ -151,19 +150,53 @@ export default function Upload() {
               </div>
               <div className="flex justify-between border-2 rounded-md [border-color:var(--color-dark-grey)] mb-16">
                 <div className="flex items-center border-r-2 [border-color:var(--color-dark-grey)] p-1 px-5">
-                  <div className="w-6 h-6 border-2 [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4"></div>
-                  <p className="p-1">Title</p>
+                  <input
+                    type="radio"
+                    id="paragraph"
+                    name="summaryType"
+                    value="Paragraph"
+                    checked={summaryType === "Paragraph"}
+                    onChange={() => setSummaryType("Paragraph")}
+                    className="w-6 h-6 border-2 [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4 hover:cursor-pointer"
+                  />
+                  <label htmlFor="paragraph" className="p-1">
+                    Paragraph
+                  </label>
                 </div>
                 <div className="flex items-center border-r-2 [border-color:var(--color-dark-grey)] p-1 px-5">
-                  <div className="w-6 h-6 border-2 [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4"></div>
-                  <p>Title</p>
+                  <input
+                    type="radio"
+                    id="bulletPoints"
+                    name="summaryType"
+                    value="Bullet Points"
+                    className="w-6 h-6 border-2 [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4 hover:cursor-pointer"
+                    checked={summaryType === "Bullet Points"}
+                    onChange={() => setSummaryType("Bullet Points")}
+                  />
+                  <label htmlFor="bulletPoints" className="p-1">
+                    Bullet Points
+                  </label>
                 </div>
                 <div className="flex items-center [border-color:var(--color-dark-grey)] p-1 px-5">
-                  <div className="w-6 h-6 border-2  [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4"></div>
-                  <p>Title</p>
+                  <input
+                    type="radio"
+                    id="sentence"
+                    name="summaryType"
+                    value="Sentence"
+                    checked={summaryType === "Sentence"}
+                    onChange={() => setSummaryType("Sentence")}
+                    className="w-6 h-6 border-2  [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4 hover:cursor-pointer"
+                  />
+                  <label htmlFor="sentence" className="p-1">
+                    Sentence
+                  </label>
                 </div>
               </div>
-              <button onClick={handleSummarize} disabled={text == ""} className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md p-2 px-6 w-full hover:bg-blue-600 transition duration-300">
+              <button
+                onClick={handleSummarize}
+                disabled={text == ""}
+                className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md p-2 px-6 w-full hover:bg-blue-600 transition duration-300"
+              >
                 Summarize
               </button>
             </div>
