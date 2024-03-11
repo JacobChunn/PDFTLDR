@@ -15,6 +15,7 @@ export default function Upload() {
     undefined
   );
   const [fileName, setFileName] = useState("PDF, Docx, or text file");
+  const [text, setText] = useState("");
 
   console.log("preview file:", previewURL);
   // @ts-ignore
@@ -41,11 +42,29 @@ export default function Upload() {
 
       const { data } = res;
       console.log(data);
+      setText(data);
     } else {
       console.log("No file is present");
     }
+
+    
   };
 
+
+  const handleSummarize = async () => { 
+    if(text == "") {
+      console.log("No text to summarize");
+      return;
+    }
+    
+    const res = await axios.post("./api/openai", text);
+
+    const blob = new Blob([JSON.stringify(res.data)], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    setPreviewURL(url);
+
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <section className="[background:var(--color-background-grey)] flex-grow">
@@ -144,7 +163,7 @@ export default function Upload() {
                   <p>Title</p>
                 </div>
               </div>
-              <button className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md p-2 px-6 w-full hover:bg-blue-600 transition duration-300">
+              <button onClick={handleSummarize} disabled={text == ""} className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md p-2 px-6 w-full hover:bg-blue-600 transition duration-300">
                 Summarize
               </button>
             </div>

@@ -6,7 +6,9 @@ Install the following dependencies:
 
 First, run the development server:
 
+
 - Navigate to the root of the project folder
+- Create a ".env" file and place in there an OpenAPI key. Ex: OPENAI_API_KEY={open api key goes HERE}
 - Type "npm install" to install dependencies
 - Type "npm run dev" in a terminal
 
