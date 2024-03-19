@@ -128,20 +128,24 @@ export default function LogIn() {
     </div>
 
     {/* Footer */}
-    <footer className="flex flex-col justify-evenly [background:var(--color-dark-grey)] h-[150px]">
+    <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
         <div className="flex items-center justify-between">
           <div className="p-4 ml-8">
-            <h3 className="[color:var(--color-light-grey)] ">PDFTDLR</h3>
+            <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
           </div>
-          <div>
-            <ul className="flex gap-[12px] [color:var(--color-light-grey)]">
-              <li>Eleven</li>
-              <li>Twelve</li>
-              <li>Thirteen</li>
-              <li>Fourteen</li>
-            </ul>
-          </div>
-          <div className="mr-12 flex gap-3 [color:var(--color-light-grey)]">
+          <div className=" flex justify-center">
+          <ul className="flex gap-[30px]">
+            <button className="text-black">
+              <Link href="#">Terms of Service</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Contact</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Help</Link></button>
+          </ul>
+        </div>
+          <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
             <a href="#"><span className="d text-1xl"><FaYoutube /></span></a>
             <a href="#"><span className="d text-1xl"><FaFacebookF /></span></a>
             <a href="#"><span className="d text-1xl"><FaTwitter /></span></a>
@@ -149,7 +153,7 @@ export default function LogIn() {
             <a href="#"><span className="d text-1xl"><FaLinkedinIn /></span></a>
           </div>
         </div>
-        <div className="my-8 flex items-center justify-center text-xs [color:var(--color-light-grey)]">
+        <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
           <p>PDFTDLR @2024. All rights reserved.</p>
         </div>
       </footer>

@@ -10,29 +10,30 @@ import { FaLinkedinIn } from "react-icons/fa";
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar */}
-      <header className="fixed top-0 w-full bg-white text-black p-4 border-b-2 flex justify-between items-center z-10">
-        <div className="ml-8 [font-family:var(--primary-font)]">
-          <h1>PDFTDLR</h1>
-        </div>
-        <div className="flex-grow flex justify-center">
-          <ul className="flex gap-[40px]">
-            <button className="text-black">
-              <Link href="/landing">Home</Link>
-            </button>
-            <button className="text-black">
-              <Link href="/upload">Text Bot</Link>
-            </button>
-            <button className="text-black">
-              <Link href="/profile">Profile</Link></button>
-          </ul>
-        </div>
-        <div className="ml-auto">
-          <button className="text-white font-bold">
-            <Link href="/login" className="text-black font-medium">Log In</Link>
-          </button>
-        </div>
-      </header>
+      {/* navbar */}
+      <header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
+                <div className="ml-8 [font-family:var(--primary-font)]">
+                    <h1>PDF:TLDR</h1>
+                </div>
+                <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
+                    <ul className="flex gap-[40px]">
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/landing">Home</Link>
+                        </button>
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/upload">Text Bot</Link>
+                        </button>
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/profile">Profile</Link>
+                        </button>
+                    </ul>
+                </div>
+                <div className="ml-auto">
+                    <button className="[color:var(--color-black)] font-bold">
+                        <Link href="/login" className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium">Log In</Link>
+                    </button>
+                </div>
+            </header>
       
       {/* Main content */}
       <div className="flex">
@@ -67,7 +68,7 @@ export default function LandingPage() {
         <div className="max-w-5xl pb-6 mx-auto">
           <p className="[color:var(--color-white)] text-center ml-16 mr-16 mb-8">Our innovative technology simplifies the process of digesting lengthy documents by extracting
            key insights and presenting them in concise summaries.
-           No more long hours spent sifting through pages of text our application will provide efficient, focused reading.
+           No more long hours spent sifting through pages of text, our application will provide efficient and focused reading.
             Whether you're a professional seeking quick insights or a student managing heavy coursework, our tool is designed to help you save time and effort.</p>
         </div>
       </div>
@@ -113,23 +114,23 @@ export default function LandingPage() {
       {/* Content Section 2 */}
       <div className="[background:var(--color-white)] my-40">
         <div className="flex justify-center items-center">
-          <img src="guy.png" alt="Placeholder" className="w-1/4 mx-20" />
+          <img src="RobotStudying.png" alt="Placeholder" className="w-1/4 mx-20" />
           <div className="grid grid-cols-2 gap-20">
             <div>
-              <img src="placeholder_image.png" alt="Placeholder" className="w-16 h-16 mr-2" />
-              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <img src="AILogo.png" alt="AILogo" className="w-16 h-16 mr-2 mb-4" />
+              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">PDF TL;DR services utilize AI technology, specifically the OpenAI model, to assist in summarizing your documents.</p>
             </div>
             <div>
-              <img src="placeholder_image.png" alt="Placeholder" className="w-16 h-16 mr-2" />
-              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <img src="View.png" alt="View" className="w-14 h-14 mr-2 mb-5" style={{ objectFit: 'cover' }} />
+              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Controlling summary length provides more choices for users to modify the final output as per requirements.</p>
             </div>
             <div>
-              <img src="placeholder_image.png" alt="Placeholder" className="w-16 h-16 mr-2" />
-              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <img src="fast.png" alt="Fast" className="w-15 h-14 mr-2 mb-4" style={{ objectFit: 'cover' }} />
+              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Our tool works fast to summarize your documents, so you can save time and still get all the important information you need.</p>
             </div>
-            <div>
-              <img src="placeholder_image.png" alt="Placeholder" className="w-16 h-16 mr-2" />
-              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div className="mb-10">
+              <img src="Save.png" alt="Save" className="w-12 h-12 mr-2 mb-5" />
+              <p className="[color:var(--color-dark-grey)] break-words max-w-[400px]">Our application allows users to conveniently save translations for future reference, ensuring easy access to previously converted content whenever needed.</p>
             </div>
           </div>
         </div>
@@ -139,12 +140,16 @@ export default function LandingPage() {
       <div className="bg-gray-200 py-12">
         <div className="max-w-6xl mx-auto flex justify-between">
           <div className="w-2/3 pr-8">
-            <h2 className="text-5xl font-bold mb-6">Placeholder</h2>
-            <p className="text-gray-700 mb-6 mr-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h2 className="text-5xl font-bold mb-6">Start Now!</h2>
+            <p className="text-gray-700 mb-6 mr-2">Begin summarizing or view your saved translations.</p>
           </div>
           <div className="w-1/2 flex  items-center ml-20">
-            <button className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 mr-4 hover:bg-blue-600 transition duration-300" style={{ whiteSpace: 'nowrap' }}>Text Summarizer</button>
-            <button className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 hover:bg-blue-600 transition duration-300" style={{ whiteSpace: 'nowrap' }}>View Documents</button>
+          <button className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 mr-4 hover:bg-blue-600 transition duration-300" style={{ whiteSpace: 'nowrap' }}>
+            <Link href="/upload" className="text-white">Text Summarizer</Link>
+          </button>
+          <button className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 hover:bg-blue-600 transition duration-300" style={{ whiteSpace: 'nowrap' }}>
+            <Link href="/profile" className="text-white">View Documents</Link>
+          </button>
           </div>
         </div>
       </div>
@@ -155,14 +160,18 @@ export default function LandingPage() {
           <div className="p-4 ml-8">
             <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
           </div>
-          <div>
-            <ul className="flex gap-[12px] [color:var(--font-primary)]">
-              <li>Eleven</li>
-              <li>Twelve</li>
-              <li>Thirteen</li>
-              <li>Fourteen</li>
-            </ul>
-          </div>
+          <div className=" flex justify-center">
+          <ul className="flex gap-[30px]">
+            <button className="text-black">
+              <Link href="#">Terms of Service</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Contact</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Help</Link></button>
+          </ul>
+        </div>
           <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
             <a href="#"><span className="d text-1xl"><FaYoutube /></span></a>
             <a href="#"><span className="d text-1xl"><FaFacebookF /></span></a>

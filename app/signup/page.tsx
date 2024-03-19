@@ -73,30 +73,29 @@ export default function SignUp() {
   return (
       <div>
         {/* navbar */}
-        <header className="fixed top-0 w-full bg-white text-black p-4 border-b-2 flex justify-between items-center z-10">
-          <div className="ml-8">
-            <h1>PDFTLDR</h1>
-          </div>
-          <div className="flex-grow flex justify-center">
-            <ul className="flex gap-[40px]">
-              <button className="text-black">
-                <Link href="/landing">Home</Link>
-              </button>
-              <button className="text-black">
-                <Link href="/upload">Text Bot</Link>
-              </button>
-              <button className="text-black">
-                <Link href="/profile">Profile</Link></button>
-            </ul>
-          </div>
-          <div className="ml-auto">
-            <button className="text-white font-bold">
-              <Link href="/login" className="text-black font-medium">
-                Log In
-              </Link>
-            </button>
-          </div>
-        </header>
+        <header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
+                <div className="ml-8 [font-family:var(--primary-font)]">
+                    <h1>PDF:TLDR</h1>
+                </div>
+                <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
+                    <ul className="flex gap-[40px]">
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/landing">Home</Link>
+                        </button>
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/upload">Text Bot</Link>
+                        </button>
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/profile">Profile</Link>
+                        </button>
+                    </ul>
+                </div>
+                <div className="ml-auto">
+                    <button className="[color:var(--color-black)] font-bold">
+                        <Link href="/login" className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium">Log In</Link>
+                    </button>
+                </div>
+            </header>
         <div className="h-screen bg-gray-200 flex items-center justify-center">
           <section className="bg-white w-[1200px] h-[800px] flex mt-16">
             {/* Placeholder photo */}
@@ -196,51 +195,35 @@ export default function SignUp() {
           </section>
         </div>
         {/* Footer */}
-        <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
-          <div className="flex items-center justify-between">
-            <div className="p-4 ml-8">
-              <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
-            </div>
-            <div>
-              <ul className="flex gap-[12px] [color:var(--font-primary)]">
-                <li>Eleven</li>
-                <li>Twelve</li>
-                <li>Thirteen</li>
-                <li>Fourteen</li>
-              </ul>
-            </div>
-            <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
-              <a href="#">
-              <span className="d text-1xl">
-                <FaYoutube />
-              </span>
-              </a>
-              <a href="#">
-              <span className="d text-1xl">
-                <FaFacebookF />
-              </span>
-              </a>
-              <a href="#">
-              <span className="d text-1xl">
-                <FaTwitter />
-              </span>
-              </a>
-              <a href="#">
-              <span className="d text-1xl">
-                <FaInstagram />
-              </span>
-              </a>
-              <a href="#">
-              <span className="d text-1xl">
-                <FaLinkedinIn />
-              </span>
-              </a>
-            </div>
+      <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
+        <div className="flex items-center justify-between">
+          <div className="p-4 ml-8">
+            <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
           </div>
-          <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
-            <p>PDFTDLR @2024. All rights reserved.</p>
+          <div className=" flex justify-center">
+          <ul className="flex gap-[30px]">
+            <button className="text-black">
+              <Link href="#">Terms of Service</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Contact</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Help</Link></button>
+          </ul>
+        </div>
+          <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
+            <a href="#"><span className="d text-1xl"><FaYoutube /></span></a>
+            <a href="#"><span className="d text-1xl"><FaFacebookF /></span></a>
+            <a href="#"><span className="d text-1xl"><FaTwitter /></span></a>
+            <a href="#"><span className="d text-1xl"><FaInstagram /></span></a>
+            <a href="#"><span className="d text-1xl"><FaLinkedinIn /></span></a>
           </div>
-        </footer>
+        </div>
+        <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
+          <p>PDFTDLR @2024. All rights reserved.</p>
+        </div>
+      </footer>
       </div>
   );
 }

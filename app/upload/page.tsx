@@ -1,4 +1,5 @@
 "use client";
+import { ChangeEvent} from "react";
 import { FaFileArrowUp } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaFacebookF } from "react-icons/fa";
@@ -8,15 +9,16 @@ import { FaLinkedinIn } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
+import { saveDocument } from '../lib/docs';
 
 export default function Upload() {
   const [previewURL, setPreviewURL] = useState("");
-  const [submittedFile, setSubmittedFile] = useState<File | undefined>(
-    undefined
-  );
+  const [submittedFile, setSubmittedFile] = useState<File | undefined>(undefined);
   const [fileName, setFileName] = useState("PDF, Docx, or text file");
   const [text, setText] = useState("");
   const [summaryType, setSummaryType] = useState("Paragraph");
+  const [fileType, setFileType] = useState("Unknown");
+  const [fileNameInput, setFileNameInput] = useState("");
 
   // @ts-ignore
   const handleFileChange = async (e) => {
@@ -46,56 +48,91 @@ export default function Upload() {
     }
   };
 
+  const handleDuplicateKeyError = (error: any) => {
+    if (error.code === '23505') {
+      console.error('Duplicate key violation:', error.detail);
+    } else {
+      console.error('Failed to save document:', error);
+    }
+  };
+
+  const handleFileNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFileNameInput(e.target.value);
+  };
+
+  const handleSavedDocument = async (fileName: string, summarizedText: string, fileType: string) => {
+    try {
+      // Save the document
+      await saveDocument(fileName, fileType, summarizedText);
+      console.log('Document saved successfully');
+      alert('Your document has been saved successfully');
+    } catch (error) {
+      handleDuplicateKeyError(error);
+      alert('Failed to save your document, please try again.');
+    }
+  };
+
   const handleSummarize = async () => {
-    if (text == "") {
+    if (text === "") {
       console.log("No text to summarize");
       return;
     }
+  
+    try {
+    
+      const GPTapiRequestData = {
+        option: summaryType,
+        text: text,
+      };
+  
+      const res = await axios.post("./api/openai", GPTapiRequestData);
+  
+      const blob = new Blob([JSON.stringify(res.data)], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+  
+      setPreviewURL(url);
+    
+      const fileName = fileNameInput.trim();
+      
+      // Set file type
+      const fileType = submittedFile?.type || "Unknown";
+      
+      setFileType(fileType);
+  
+      // Call handleSavedDocument
+      await handleSavedDocument(fileName, res.data, fileType);
+    } catch (error) {
+      console.error('Error during summarization:', error);
 
-    const GPTapiRequestData = {
-      option: summaryType,
-      text: text,
-    };
-
-    const res = await axios.post("./api/openai", GPTapiRequestData);
-
-    const blob = new Blob([JSON.stringify(res.data)], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-
-    setPreviewURL(url);
+    }
   };
   return (
     <div className="flex flex-col min-h-screen">
       <section className="[background:var(--color-background-grey)] flex-grow">
         {/* navbar */}
         <header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
-          <div className="ml-8">
-            <h1>PDFTLDR</h1>
-          </div>
-          <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
-            <ul className="flex gap-[40px]">
-              <button className="[color:var(--color-black)]">
-                <Link href="/landing">Home</Link>
-              </button>
-              <button className="[color:var(--color-black)]">
-                <Link href="/upload">Text Bot</Link>
-              </button>
-              <button className="[color:var(--color-black)]">
-                <Link href="/profile">Profile</Link>
-              </button>
-            </ul>
-          </div>
-          <div className="ml-auto">
-            <button className="[color:var(--color-black)] font-bold">
-              <Link
-                href="/login"
-                className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium"
-              >
-                Log In
-              </Link>
-            </button>
-          </div>
-        </header>
+                <div className="ml-8 [font-family:var(--primary-font)]">
+                    <h1>PDF:TLDR</h1>
+                </div>
+                <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
+                    <ul className="flex gap-[40px]">
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/landing">Home</Link>
+                        </button>
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/upload">Text Bot</Link>
+                        </button>
+                        <button className="[color:var(--color-black)]">
+                            <Link href="/profile">Profile</Link>
+                        </button>
+                    </ul>
+                </div>
+                <div className="ml-auto">
+                    <button className="[color:var(--color-black)] font-bold">
+                        <Link href="/login" className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium">Log In</Link>
+                    </button>
+                </div>
+            </header>
 
         {/* main content */}
         <main className="flex items-center justify-center my-[40px] mt-40">
@@ -141,11 +178,13 @@ export default function Upload() {
                 </label>
               </form>
               <div className="flex justify-start flex-col items-start w-full mb-10">
-                <p>Save As</p>
+              <p>Save As</p>
                 <input
                   type="text"
                   placeholder="File name"
-                  className=" border-2 rounded-md [border-color:var(--color-light-grey)] p-2 text-start w-full"
+                  value={fileNameInput}
+                  onChange={handleFileNameChange}
+                  className="border-2 rounded-md border-color:var(--color-light-grey) p-2 text-start w-full"
                 />
               </div>
               <div className="flex justify-between border-2 rounded-md [border-color:var(--color-dark-grey)] mb-16">
@@ -205,48 +244,32 @@ export default function Upload() {
       </section>
 
       {/* Footer */}
-      <footer className="flex flex-col justify-evenly [background:var(--color-dark-grey)] h-[150px]">
+      <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
         <div className="flex items-center justify-between">
           <div className="p-4 ml-8">
-            <h3 className="[color:var(--color-light-grey)] ">PDFTLDR</h3>
+            <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
           </div>
-          <div>
-            <ul className="flex gap-[12px] [color:var(--color-light-grey)]">
-              <li>Eleven</li>
-              <li>Twelve</li>
-              <li>Thirteen</li>
-              <li>Fourteen</li>
-            </ul>
-          </div>
-          <div className="mr-12 flex gap-3 [color:var(--color-light-grey)]">
-            <a href="#">
-              <span className="d text-1xl">
-                <FaYoutube />
-              </span>
-            </a>
-            <a href="#">
-              <span className="d text-1xl">
-                <FaFacebookF />
-              </span>
-            </a>
-            <a href="#">
-              <span className="d text-1xl">
-                <FaTwitter />
-              </span>
-            </a>
-            <a href="#">
-              <span className="d text-1xl">
-                <FaInstagram />
-              </span>
-            </a>
-            <a href="#">
-              <span className="d text-1xl">
-                <FaLinkedinIn />
-              </span>
-            </a>
+          <div className=" flex justify-center">
+          <ul className="flex gap-[30px]">
+            <button className="text-black">
+              <Link href="#">Terms of Service</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Contact</Link>
+            </button>
+            <button className="text-black">
+              <Link href="#">Help</Link></button>
+          </ul>
+        </div>
+          <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
+            <a href="#"><span className="d text-1xl"><FaYoutube /></span></a>
+            <a href="#"><span className="d text-1xl"><FaFacebookF /></span></a>
+            <a href="#"><span className="d text-1xl"><FaTwitter /></span></a>
+            <a href="#"><span className="d text-1xl"><FaInstagram /></span></a>
+            <a href="#"><span className="d text-1xl"><FaLinkedinIn /></span></a>
           </div>
         </div>
-        <div className="my-8 flex items-center justify-center text-xs [color:var(--color-light-grey)]">
+        <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
           <p>PDFTDLR @2024. All rights reserved.</p>
         </div>
       </footer>
