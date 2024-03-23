@@ -5,8 +5,7 @@ dotenv.config();
 
 
 const openai = new OpenAI({
-  // you need to set this in your local .env file until this is deployed
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY, // you need to set this in your local .env file until this is deployed
 });
 
 
@@ -15,15 +14,10 @@ export async function POST(request: Request) {
   const bodyJSON = new TextDecoder("utf-8").decode(bodyBuffer);
   const body = JSON.parse(bodyJSON);
 
-
   const { option, text } = body;
-
-
   console.log(text);
 
-
   let prompt = "";
-
 
   switch (option) {
     case "Paragraph":
@@ -40,9 +34,7 @@ export async function POST(request: Request) {
       break;
   }
 
-
   const response = await chatGPTApiCall(prompt, text);
-
 
   return response;
 }
@@ -55,25 +47,12 @@ export async function chatGPTApiCall(prompt: string, text: string): Promise<Resp
       model: "gpt-3.5-turbo",
     });
 
-
-
-
     const summary = completion.choices[0].message.content;
-
-
-
-
     console.log(`Summary: ${summary}`);
-
-
-
 
     return new Response(JSON.stringify(summary));
   } catch (e) {
     console.error(e);
-
-
-
 
     return new Response(JSON.stringify("ChatGPT API call failed."));
   }
