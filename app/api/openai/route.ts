@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       prompt = "summarize this text with bullet points:\n ";
       break;
     case "Sentence":
-      prompt = "summarize this text with sentence:\n";
+      prompt = "summarize this text with one sentence only:\n";
       break;
     default:
       prompt = "summarize this text with a paragraph:\n";

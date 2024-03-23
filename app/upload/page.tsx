@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 import { FaFileArrowUp } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaFacebookF } from "react-icons/fa";
@@ -9,11 +9,13 @@ import { FaLinkedinIn } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
-import { saveDocument } from '../lib/docs';
+import { saveDocument } from "../lib/docs";
 
 export default function Upload() {
   const [previewURL, setPreviewURL] = useState("");
-  const [submittedFile, setSubmittedFile] = useState<File | undefined>(undefined);
+  const [submittedFile, setSubmittedFile] = useState<File | undefined>(
+    undefined
+  );
   const [fileName, setFileName] = useState("PDF, Docx, or text file");
   const [text, setText] = useState("");
   const [summaryType, setSummaryType] = useState("Paragraph");
@@ -24,15 +26,17 @@ export default function Upload() {
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     setSubmittedFile(file);
+    setPreviewURL("");
 
-    if (file) {
-      URL.revokeObjectURL(previewURL);
+    if (
+      file.type !==
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      const url = URL.createObjectURL(file);
+      setPreviewURL(url);
     }
 
     if (file) {
-      const url = URL.createObjectURL(file);
-      console.log(file);
-      setPreviewURL(url);
       setFileName(file.name);
 
       const formData = new FormData();
@@ -49,10 +53,10 @@ export default function Upload() {
   };
 
   const handleDuplicateKeyError = (error: any) => {
-    if (error.code === '23505') {
-      console.error('Duplicate key violation:', error.detail);
+    if (error.code === "23505") {
+      console.error("Duplicate key violation:", error.detail);
     } else {
-      console.error('Failed to save document:', error);
+      console.error("Failed to save document:", error);
     }
   };
 
@@ -60,15 +64,19 @@ export default function Upload() {
     setFileNameInput(e.target.value);
   };
 
-  const handleSavedDocument = async (fileName: string, summarizedText: string, fileType: string) => {
+  const handleSavedDocument = async (
+    fileName: string,
+    summarizedText: string,
+    fileType: string
+  ) => {
     try {
       // Save the document
       await saveDocument(fileName, fileType, summarizedText);
-      console.log('Document saved successfully');
-      alert('Your document has been saved successfully');
+      console.log("Document saved successfully");
+      alert("Your document has been saved successfully");
     } catch (error) {
       handleDuplicateKeyError(error);
-      alert('Failed to save your document, please try again.');
+      alert("Failed to save your document, please try again.");
     }
   };
 
@@ -77,33 +85,31 @@ export default function Upload() {
       console.log("No text to summarize");
       return;
     }
-  
+
     try {
-    
       const GPTapiRequestData = {
         option: summaryType,
         text: text,
       };
-  
+
       const res = await axios.post("./api/openai", GPTapiRequestData);
-  
+
       const blob = new Blob([JSON.stringify(res.data)], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
-  
+
       setPreviewURL(url);
-    
+
       const fileName = fileNameInput.trim();
-      
+
       // Set file type
       const fileType = submittedFile?.type || "Unknown";
-      
+
       setFileType(fileType);
-  
+
       // Call handleSavedDocument
       await handleSavedDocument(fileName, res.data, fileType);
     } catch (error) {
-      console.error('Error during summarization:', error);
-
+      console.error("Error during summarization:", error);
     }
   };
   return (
@@ -111,28 +117,33 @@ export default function Upload() {
       <section className="[background:var(--color-background-grey)] flex-grow">
         {/* navbar */}
         <header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
-                <div className="ml-8 [font-family:var(--primary-font)]">
-                    <h1>PDF:TLDR</h1>
-                </div>
-                <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
-                    <ul className="flex gap-[40px]">
-                        <button className="[color:var(--color-black)]">
-                            <Link href="/landing">Home</Link>
-                        </button>
-                        <button className="[color:var(--color-black)]">
-                            <Link href="/upload">Text Bot</Link>
-                        </button>
-                        <button className="[color:var(--color-black)]">
-                            <Link href="/profile">Profile</Link>
-                        </button>
-                    </ul>
-                </div>
-                <div className="ml-auto">
-                    <button className="[color:var(--color-black)] font-bold">
-                        <Link href="/login" className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium">Log In</Link>
-                    </button>
-                </div>
-            </header>
+          <div className="ml-8 [font-family:var(--primary-font)]">
+            <h1>PDF:TLDR</h1>
+          </div>
+          <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
+            <ul className="flex gap-[40px]">
+              <button className="[color:var(--color-black)]">
+                <Link href="/landing">Home</Link>
+              </button>
+              <button className="[color:var(--color-black)]">
+                <Link href="/upload">Text Bot</Link>
+              </button>
+              <button className="[color:var(--color-black)]">
+                <Link href="/profile">Profile</Link>
+              </button>
+            </ul>
+          </div>
+          <div className="ml-auto">
+            <button className="[color:var(--color-black)] font-bold">
+              <Link
+                href="/login"
+                className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium"
+              >
+                Log In
+              </Link>
+            </button>
+          </div>
+        </header>
 
         {/* main content */}
         <main className="flex items-center justify-center my-[40px] mt-40">
@@ -169,7 +180,7 @@ export default function Upload() {
                     id="file-input"
                     type="file"
                     className="hidden"
-                    accept="application/pdf"
+                    accept="application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                   />
                   <span className="mr-3 text-2xl">
                     <FaFileArrowUp />
@@ -178,7 +189,7 @@ export default function Upload() {
                 </label>
               </form>
               <div className="flex justify-start flex-col items-start w-full mb-10">
-              <p>Save As</p>
+                <p>Save As</p>
                 <input
                   type="text"
                   placeholder="File name"
@@ -250,23 +261,44 @@ export default function Upload() {
             <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>
           </div>
           <div className=" flex justify-center">
-          <ul className="flex gap-[30px]">
-            <button className="text-black">
-              <Link href="#">Terms of Service</Link>
-            </button>
-            <button className="text-black">
-              <Link href="#">Contact</Link>
-            </button>
-            <button className="text-black">
-              <Link href="#">Help</Link></button>
-          </ul>
-        </div>
+            <ul className="flex gap-[30px]">
+              <button className="text-black">
+                <Link href="#">Terms of Service</Link>
+              </button>
+              <button className="text-black">
+                <Link href="#">Contact</Link>
+              </button>
+              <button className="text-black">
+                <Link href="#">Help</Link>
+              </button>
+            </ul>
+          </div>
           <div className="mr-12 flex gap-3 [color:var(--font-primary)]">
-            <a href="#"><span className="d text-1xl"><FaYoutube /></span></a>
-            <a href="#"><span className="d text-1xl"><FaFacebookF /></span></a>
-            <a href="#"><span className="d text-1xl"><FaTwitter /></span></a>
-            <a href="#"><span className="d text-1xl"><FaInstagram /></span></a>
-            <a href="#"><span className="d text-1xl"><FaLinkedinIn /></span></a>
+            <a href="#">
+              <span className="d text-1xl">
+                <FaYoutube />
+              </span>
+            </a>
+            <a href="#">
+              <span className="d text-1xl">
+                <FaFacebookF />
+              </span>
+            </a>
+            <a href="#">
+              <span className="d text-1xl">
+                <FaTwitter />
+              </span>
+            </a>
+            <a href="#">
+              <span className="d text-1xl">
+                <FaInstagram />
+              </span>
+            </a>
+            <a href="#">
+              <span className="d text-1xl">
+                <FaLinkedinIn />
+              </span>
+            </a>
           </div>
         </div>
         <div className="my-8 flex items-center justify-center text-xs [color:var(--font-primary)]">
