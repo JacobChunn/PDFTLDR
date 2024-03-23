@@ -1,34 +1,31 @@
 Install the following dependencies:
- - Node JS
- - Git (to clone)
 
-## Getting Started
+- Node JS
+- Git (to clone)
 
-First, run the development server:
-
+## TO RUN THE PROJECT
 
 - Navigate to the root of the project folder
-- Create a ".env" file and place in there an OpenAPI key. Ex: OPENAI_API_KEY={open api key goes HERE}
+- Create a ".env" file and place in there environment variables that should be provided to you (for the database and OpenAI API)
 - Type "npm install" to install dependencies
 - Type "npm run dev" in a terminal
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### TO RUN THE CYPRESS TESTS
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+**Ensure that the project is running before continuing**
 
-## Learn More
+- Navigate to the root of the project folder in powershell terminal
+- Type "npm install" to install dependencies if you haven't done this yet
+- Type "npx cypress open" to open cypress
+- Select "E2E Testing"
+- Select "Chrome" and click "Start E2E Testing in Chrome"
+- This will open a new window. Then select the "spec.cy.ts" file
+- This will run the tests and display the results on the left, refresh the page to test again
 
-To learn more about Next.js, take a look at the following resources:
+### TO RUN THE JEST TESTS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Navigate to the root of the project folder in powershell terminal
+- Type "npm install" to install dependencies if you haven't done this yet
+- Type "npm test" and this while run the tests and display the results on the terminal
