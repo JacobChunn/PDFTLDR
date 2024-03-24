@@ -1,10 +1,9 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react"
 
 export default function NavBar() {
-
-const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
 	return (
 		<header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
