@@ -14,6 +14,7 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { fetchDocuments, deleteDocument, saveDocument } from "../lib/docs";
+import DataDisplay from "../components/DataDisplay";
 
 export default function Profile() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -40,7 +41,7 @@ export default function Profile() {
           date_created: row.date_created,
           file_type: row.file_type,
           summarized_text: row.summarized_text,
-          //summary_type: row.summary_type, add when database is added
+          summary_type: row.summary_type,
         }));
         setSavedDocuments(documentsData);
       } catch (error) {
@@ -343,12 +344,12 @@ export default function Profile() {
                 <h3 className="text-2xl font-bold mb-8">
                   {selectedDocument.file_name}
                 </h3>
-                <p className="mb-10">{selectedDocument.summarized_text}</p>{" "}
-                {/* REPLACE P TAG WHEN SUMMARYTYPE HAS BEEN IMPORTED FROM DATA BASE WITH <DataDisplay
-                  translatedDocument={summarized_text}
+                <DataDisplay
                   //@ts-ignore
-                  summaryType={summary_type}
-                />  */}
+                  translatedDocument={selectedDocument.summarized_text}
+                  //@ts-ignore
+                  summaryType={selectedDocument.summary_type}
+                />
                 <button
                   className="absolute mt-6 px-4 py-2 bottom-4 right-4 bg-blue-500 text-white rounded-md transition duration-300 hover:bg-blue-600"
                   onClick={handleCloseModal}
