@@ -19,7 +19,7 @@ export default function LandingPage() {
               </h1>
               <p className="[color:var(--color-dark-grey)]  mb-8 text-left max-w-[850px] ml-8 mr-8 text-lg">
                 Welcome to PDF TL;DR, where we make things easier for you. Tired
-                of reading long documents? Just upload your files and we'll do
+                of reading long documents? Just upload your files and we&apos;ll do
                 the hard work. Our system quickly picks out the most important
                 information, giving you short summaries that are easy to
                 understand. Say goodbye to long reading sessions and hello to
@@ -69,7 +69,7 @@ export default function LandingPage() {
             lengthy documents by extracting key insights and presenting them in
             concise summaries. No more long hours spent sifting through pages of
             text, our application will provide efficient and focused reading.
-            Whether you're a professional seeking quick insights or a student
+            Whether you&apos;re a professional seeking quick insights or a student
             managing heavy coursework, our tool is designed to help you save
             time and effort.
           </p>
