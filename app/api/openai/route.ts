@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 dotenv.config();
 
@@ -24,7 +23,7 @@ export async function POST(request: Request) {
       prompt = "summarize this text with a paragraph:\n";
       break;
     case "Bullet Points":
-      prompt = "summarize this text with bullet points:\n ";
+      prompt = "summarize this text with bullet points with no newline characters. make each bullet an <li> in a <ul>:\n ";
       break;
     case "Sentence":
       prompt = "summarize this text with sentence:\n";
@@ -39,7 +38,6 @@ export async function POST(request: Request) {
   return response;
 }
 
-
 export async function chatGPTApiCall(prompt: string, text: string): Promise<Response> {
   try {
     const completion = await openai.chat.completions.create({
@@ -47,13 +45,17 @@ export async function chatGPTApiCall(prompt: string, text: string): Promise<Resp
       model: "gpt-3.5-turbo",
     });
 
-    const summary = completion.choices[0].message.content;
+    const summary = completion.choices[0]?.message.content;
     console.log(`Summary: ${summary}`);
 
-    return new Response(JSON.stringify(summary));
+    return new Response(JSON.stringify(summary), {
+      status: 200
+    });
   } catch (e) {
     console.error(e);
 
-    return new Response(JSON.stringify("ChatGPT API call failed."));
+    return new Response(JSON.stringify("ChatGPT API call failed."), {
+      status: 500
+    });
   }
 };

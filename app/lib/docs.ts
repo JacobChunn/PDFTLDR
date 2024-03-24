@@ -3,23 +3,25 @@
 import { sql } from "@vercel/postgres";
 
 export async function saveDocument(
+  status: any,
   fileName: string,
   fileType: string,
   summarizedText: string
 ) {
   try {
+    // check status of api call
+    if (status == 200) {
+      // Calculate the Date and Time when uploaded
+      const timeZoneOffset = new Date().getTimezoneOffset() * 60000;
+      const localDateTime = new Date(Date.now() - timeZoneOffset).toISOString();
 
-    // Calculate the Date and Time when uploaded
-    const timeZoneOffset = new Date().getTimezoneOffset() * 60000;
-    const localDateTime = new Date(Date.now() - timeZoneOffset).toISOString();
-
-    // Insert document data into the documents
-    await sql`
-  INSERT INTO documents (file_name, date_created, file_type, summarized_text)
-  VALUES (${fileName}, ${localDateTime}, ${fileType}, ${summarizedText})
-`;
-
-    console.log('Document saved successfully');
+      // Insert document data into the documents
+      await sql`
+      INSERT INTO documents (file_name, date_created, file_type, summarized_text)
+      VALUES (${fileName}, ${localDateTime}, ${fileType}, ${summarizedText})`;
+    } else {
+      console.log(status + " Error in API call");
+    }
   } catch (error) {
     console.error('Failed to save document:', error);
     throw error;
