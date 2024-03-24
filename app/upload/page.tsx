@@ -102,7 +102,6 @@ export default function Upload() {
 
       const fileName = fileNameInput.trim();
       const fileType = submittedFile?.type || "Unknown";
-
       setFileType(fileType);
 
       // Call handleSavedDocument

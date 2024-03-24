@@ -38,3 +38,6 @@ next-env.d.ts
 
 #database
 env.development.local
+
+#cypress screenshots
+/cypress/screenshots/*
