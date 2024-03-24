@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
 import { saveDocument } from "../lib/docs";
+import DataDisplay from "../components/DataDisplay";
 
 export default function Upload() {
   const [previewURL, setPreviewURL] = useState("");
@@ -21,6 +22,7 @@ export default function Upload() {
   const [summaryType, setSummaryType] = useState("Paragraph");
   const [fileType, setFileType] = useState("Unknown");
   const [fileNameInput, setFileNameInput] = useState("");
+  const [translatedDocument, setTranslatedDocument] = useState("");
 
   // @ts-ignore
   const handleFileChange = async (e) => {
@@ -95,14 +97,10 @@ export default function Upload() {
 
       const res = await axios.post("./api/openai", GPTapiRequestData);
 
-      const blob = new Blob([JSON.stringify(res.data)], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-
-      setPreviewURL(url);
+      setPreviewURL("");
+      setTranslatedDocument(res.data);
 
       const fileName = fileNameInput.trim();
-
-      // Set file type
       const fileType = submittedFile?.type || "Unknown";
       setFileType(fileType);
 
@@ -116,7 +114,6 @@ export default function Upload() {
   return (
     <div className="flex flex-col min-h-screen">
       <section className="[background:var(--color-background-grey)] flex-grow">
-		
         {/* main content */}
         <main className="flex items-center justify-center my-[40px] mt-40">
           <div className="[background:var(--color-white)] p-8 rounded-lg flex flex-row justify-center items-center h-[575px]">
@@ -129,6 +126,14 @@ export default function Upload() {
                 >
                   Your browser does not support iframe embedding
                 </iframe>
+              </div>
+            ) : translatedDocument ? (
+              <div className="w-[500px] h-[500px] object-contain mr-[40px] border-4 p-2 overflow-scroll">
+                <DataDisplay
+                  translatedDocument={translatedDocument}
+                  //@ts-ignore
+                  summaryType={summaryType}
+                />
               </div>
             ) : (
               <div></div>
