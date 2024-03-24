@@ -115,36 +115,7 @@ export default function Upload() {
   return (
     <div className="flex flex-col min-h-screen">
       <section className="[background:var(--color-background-grey)] flex-grow">
-        {/* navbar */}
-        <header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
-          <div className="ml-8 [font-family:var(--primary-font)]">
-            <h1>PDF:TLDR</h1>
-          </div>
-          <div className="[font-family:var(--secondary-font)] flex-grow flex justify-center">
-            <ul className="flex gap-[40px]">
-              <button className="[color:var(--color-black)]">
-                <Link href="/landing">Home</Link>
-              </button>
-              <button className="[color:var(--color-black)]">
-                <Link href="/upload">Text Bot</Link>
-              </button>
-              <button className="[color:var(--color-black)]">
-                <Link href="/profile">Profile</Link>
-              </button>
-            </ul>
-          </div>
-          <div className="ml-auto">
-            <button className="[color:var(--color-black)] font-bold">
-              <Link
-                href="/login"
-                className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium"
-              >
-                Log In
-              </Link>
-            </button>
-          </div>
-        </header>
-
+		
         {/* main content */}
         <main className="flex items-center justify-center my-[40px] mt-40">
           <div className="[background:var(--color-white)] p-8 rounded-lg flex flex-row justify-center items-center h-[575px]">
