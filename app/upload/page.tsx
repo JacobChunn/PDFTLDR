@@ -65,13 +65,14 @@ export default function Upload() {
   };
 
   const handleSavedDocument = async (
+    status: any,
     fileName: string,
     summarizedText: string,
     fileType: string
   ) => {
     try {
       // Save the document
-      await saveDocument(fileName, fileType, summarizedText);
+      await saveDocument(status, fileName, fileType, summarizedText);
       console.log("Document saved successfully");
       alert("Your document has been saved successfully");
     } catch (error) {
@@ -107,7 +108,7 @@ export default function Upload() {
       setFileType(fileType);
 
       // Call handleSavedDocument
-      await handleSavedDocument(fileName, res.data, fileType);
+      await handleSavedDocument(res.status, fileName, res.data, fileType);
     } catch (error) {
       console.error("Error during summarization:", error);
     }
