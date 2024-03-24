@@ -42,3 +42,24 @@ Cypress.Commands.add("arrayBufferToString", (buffer) => {
   //@ts-ignore
   return decoder.decode(buffer);
 });
+
+// lets cypress log in so that we can access the parser
+declare namespace Cypress {
+  interface Chainable<Subject> {
+    loginAPI(username: string, password: string): Chainable<Subject>;
+  }
+}
+
+Cypress.Commands.add('loginAPI', (username, password) => {
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3000/api/auth/signin',
+    body: {
+      username,
+      password,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    window.localStorage.setItem('authToken', response.body.authToken);
+  });
+});

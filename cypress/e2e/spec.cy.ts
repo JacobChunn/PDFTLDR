@@ -1,4 +1,37 @@
+describe('Login API', () => {
+  it('should return a response from the login API', () => {
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:3000/api/auth/signin',
+      body: {
+        username: 'test',
+        password: 'test',
+      },
+    }).then(({ body, status }) => {
+      expect(status).to.equal(200); // request went through well
+      expect(body).to.have.property('token');
+    });
+  });
+  it('should not authenticate users with wrong credentials', () => {
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:3000/api/auth/signin',
+      body: {
+        username: 'test',
+        password: 'wrongpassword',
+      },
+    }).then(({ status }) => {
+      expect(status).to.equal(401); // unauthorized access
+    });
+  });
+});
+
 describe("Parser API", () => {
+  // log in before each test
+  beforeEach(() => {
+    cy.loginAPI("test", "test");
+  });
+
   it("should parse the text out of the pdf and return a response", () => {
     // Prepare a file to upload
     cy.fixture("test.pdf", "binary")
