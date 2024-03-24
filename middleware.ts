@@ -40,7 +40,7 @@ export async function middleware(req: NextRequest) {
 	const token = await getToken({ req });
 
 	if (token == null) {
-		console.log("NO TOKEN!!!!!!!")
+		//console.log("NO TOKEN!!!!!!!")
 		if (
 			!(
 				unprotectedRoutes.includes(pathname) ||
@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest) {
 				pathnameEndsWithAny(pathname, unprotectedEndingRoutes)
 			)
 		) {
-			console.log("NO TOKEN BLOCKED: ", pathname);
+			//console.log("NO TOKEN BLOCKED: ", pathname);
 			return NextResponse.redirect(
 				new URL(
 					"/api/auth/signin", req.url
@@ -56,21 +56,21 @@ export async function middleware(req: NextRequest) {
 			);
 		}
 		else {
-			console.log("NO TOKEN ALLOWED: ", pathname);
+			//console.log("NO TOKEN ALLOWED: ", pathname);
 			return NextResponse.next();
 		}
 	}
-	console.log("signed in! going to ", pathname)
+	//console.log("signed in! going to ", pathname)
 	// Is signed in, and trying to access landing page
 	if (
 		unprotectedRoutes.includes(pathname)
 	) {
-		console.log("IN SECOND")
+		//console.log("IN SECOND")
 		return NextResponse.next();
 	}
 
 
-	console.log("END OF CHECKS!!!")
+	//console.log("END OF CHECKS!!!")
 	return NextResponse.next();
 
 }
