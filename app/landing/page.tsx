@@ -9,7 +9,6 @@ import { FaLinkedinIn } from "react-icons/fa";
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      
       {/* Main content */}
       <div className="flex">
         <div className="flex-1">
@@ -26,14 +25,14 @@ export default function LandingPage() {
                 understand. Say goodbye to long reading sessions and hello to
                 quick insights. Start summarizing your documents with us today!
               </p>
-              <button className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md px-16 py-3 hover:bg-blue-600 transition duration-300">
-                <Link
-                  href="/upload"
-                  className="[color:var(--color-white)] font-medium"
-                >
+              <Link
+                href="/upload"
+                className="[color:var(--color-white)] font-medium"
+              >
+                <button className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md px-16 py-3 hover:bg-blue-600 transition duration-300">
                   Start Summarizing
-                </Link>
-              </button>
+                </button>
+              </Link>
             </section>
           </div>
         </div>
@@ -145,7 +144,7 @@ export default function LandingPage() {
           <img
             src="RobotStudying.png"
             alt="Placeholder"
-            className="w-1/4 mx-20"
+            className="w-1/4 mx-20 rounded-lg"
           />
           <div className="grid grid-cols-2 gap-20">
             <div>
@@ -205,22 +204,22 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="w-1/2 flex  items-center ml-20">
-            <button
-              className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 mr-4 hover:bg-blue-600 transition duration-300"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              <Link href="/upload" className="text-white">
+            <Link href="/upload" className="text-white">
+              <button
+                className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 mr-4 hover:bg-blue-600 transition duration-300"
+                style={{ whiteSpace: "nowrap" }}
+              >
                 Text Summarizer
-              </Link>
-            </button>
-            <button
-              className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 hover:bg-blue-600 transition duration-300"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              <Link href="/profile" className="text-white">
+              </button>
+            </Link>
+            <Link href="/profile" className="text-white">
+              <button
+                className="bg-blue-500 text-white font-bold rounded-md px-16 py-3 hover:bg-blue-600 transition duration-300"
+                style={{ whiteSpace: "nowrap" }}
+              >
                 View Documents
-              </Link>
-            </button>
+              </button>
+            </Link>
           </div>
         </div>
       </div>
