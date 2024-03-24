@@ -3,7 +3,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react"
 
 export default function NavBar() {
-  const { data: session, status } = useSession();
+	const { data: session, status } = useSession();
 
 	return (
 		<header className="fixed top-0 w-full [background:var(--color-white)] [color:var(--color-black)] p-4 border-b-2 flex justify-between items-center z-10">
@@ -30,20 +30,29 @@ export default function NavBar() {
 				</ul>
 			</div>
 			<div className="ml-auto">
-				{status === "authenticated" ? 
-				<button
-					className="[color:var(--color-black)] font-bold p-2"
-					onClick={() => signOut()}
-				>
-					Log Out
-				</button>
-				:
-				<button
-					className="[color:var(--color-black)] font-bold p-2"
-					onClick={() => signIn()}
-				>
-					Log In
-				</button>
+				{status === "authenticated" ?
+					<button
+						className="[color:var(--color-black)] font-bold p-2"
+						onClick={() => signOut()}
+					>
+						Log Out
+					</button>
+					:
+					<div>
+						<Link href='/signup'>
+							<button
+								className="[color:var(--color-black)] font-bold p-2"
+							>
+								Sign Up
+							</button>
+						</Link>
+						<button
+							className="[color:var(--color-black)] font-bold p-2"
+							onClick={() => signIn()}
+						>
+							Log In
+						</button>
+					</div>
 				}
 			</div>
 		</header>
