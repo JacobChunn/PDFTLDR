@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import { useSession } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react"
 
 export default function NavBar() {
 
@@ -32,23 +32,19 @@ const { data: session, status } = useSession();
 			</div>
 			<div className="ml-auto">
 				{status === "authenticated" ? 
-				<Link
-					href="/login"
-					className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium"
+				<button
+					className="[color:var(--color-black)] font-bold p-2"
+					onClick={() => signOut()}
 				>
-					<button className="[color:var(--color-black)] font-bold p-2">
-						Log In
-					</button>
-				</Link>
+					Log Out
+				</button>
 				:
-				<Link
-					href="/login"
-					className="[color:var(--color-black)] [font-family:var(--secondary-font)] font-medium"
+				<button
+					className="[color:var(--color-black)] font-bold p-2"
+					onClick={() => signIn()}
 				>
-					<button className="[color:var(--color-black)] font-bold p-2">
-						Log In
-					</button>
-				</Link>
+					Log In
+				</button>
 				}
 			</div>
 		</header>
