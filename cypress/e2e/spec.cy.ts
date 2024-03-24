@@ -115,7 +115,7 @@ describe("OpenAI API", () => {
   it("should return a response from the OpenAI API", () => {
     cy.request({
       method: "POST",
-      url: "http://localhost:3000/api/openai", // replace with your route
+      url: "http://localhost:3000/api/openai", // route to openai endpoint
       body: {
         option: "Paragraph",
         text:
