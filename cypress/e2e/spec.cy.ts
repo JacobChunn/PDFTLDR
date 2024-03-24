@@ -110,3 +110,20 @@ describe("Parser API", () => {
       });
   });
 });
+
+describe("OpenAI API", () => {
+  it("should return a response from the OpenAI API", () => {
+    cy.request({
+      method: "POST",
+      url: "http://localhost:3000/api/openai", // replace with your route
+      body: {
+        option: "Paragraph",
+        text:
+          "The American alligator is found in the United States from North Carolina to the Rio Grande in Texas. Alligators are usually found in freshwater, slow-moving rivers. They also live in swamps, marshes and lakes. They can only tolerate saltwater for brief periods because they do not have salt glands.",
+      },
+    }).then(({ body, status }) => {
+      console.log(body);
+      expect(status).to.equal(200); // request went through well
+    });
+  });
+});
