@@ -104,7 +104,6 @@ export default function Upload() {
 
       // Set file type
       const fileType = submittedFile?.type || "Unknown";
-
       setFileType(fileType);
 
       // Call handleSavedDocument
@@ -113,6 +112,7 @@ export default function Upload() {
       console.error("Error during summarization:", error);
     }
   };
+
   return (
     <div className="flex flex-col min-h-screen">
       <section className="[background:var(--color-background-grey)] flex-grow">
