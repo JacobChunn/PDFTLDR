@@ -52,6 +52,8 @@ export default function Profile() {
     fetchSavedDocuments();
   }, []);
 
+  const [searchText, setSearchText] = useState("");
+
   const handleDeleteDocument = async (documentId: number) => {
     setDeletingDocumentId(documentId);
   };
@@ -262,6 +264,8 @@ export default function Profile() {
                   type="text"
                   className="border rounded-md px-4 py-2 pr-8"
                   placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
                 />
                 <button className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none">
                   <Icon icon={search} size={20} />
@@ -296,7 +300,10 @@ export default function Profile() {
               style={{ maxHeight: "calc(100vh - 400px)" }}
             >
               {/* Saved Documents */}
-              {savedDocuments.map((document, index) => (
+              {savedDocuments.
+              filter((doc) => doc.file_name.toLowerCase()
+              .includes(searchText.toLowerCase()))
+              .map((document, index) => (
                 <div
                   key={index}
                   className="border-t border-gray-400 mt-1 pt-1"
