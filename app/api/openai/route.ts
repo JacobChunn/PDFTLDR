@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   return response;
 }
 
-export async function chatGPTApiCall(
+async function chatGPTApiCall(
   prompt: string,
   text: string
 ): Promise<Response> {
