@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       prompt = "summarize this text with bullet points:\n ";
       break;
     case "Sentence":
-      prompt = "summarize this text with sentence:\n";
+      prompt = "summarize this text with a SINGLUAR sentence:\n";
       break;
     default:
       prompt = "summarize this text with a paragraph:\n";
@@ -43,7 +43,7 @@ export async function chatGPTApiCall(
   try {
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: prompt + text }],
-      model: "gpt-3.5-turbo",
+      model: "gpt-4-0125-preview",
     });
 
     const summary = completion.choices[0]?.message.content;
