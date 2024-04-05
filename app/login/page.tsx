@@ -96,7 +96,7 @@ export default function LogIn() {
 
 							{/* Sign-Up link */}
 							<div className="mt-4 text-center">
-								<p className="[color:var(--color-grey)]">Don't have an account? <Link href="/signup" className="[color:var(--color-blue)] font-medium">Sign up</Link></p>
+								<p className="[color:var(--color-grey)]">Don&apos;t have an account? <Link href="/signup" className="[color:var(--color-blue)] font-medium">Sign up</Link></p>
 							</div>
 						</div>
 					</div>

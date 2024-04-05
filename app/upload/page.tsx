@@ -74,7 +74,7 @@ export default function Upload() {
   ) => {
     try {
       // Save the document
-      await saveDocument(status, fileName, fileType, summarizedText);
+      await saveDocument(status, fileName, fileType, summarizedText, summaryType);
       console.log("Document saved successfully");
       alert("Your document has been saved successfully");
     } catch (error) {
