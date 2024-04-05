@@ -28,40 +28,40 @@ export const authOptions: AuthOptions = {
 				},
 			},
 			async authorize(credentials, req) {
-				// You need to provide your own logic here that takes the credentials
-				// submitted and returns either a object representing a user or value
-				// that is false/null if the credentials are invalid.
-				// e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-				// You can also use the `req` object to obtain additional parameters
-				// (i.e., the request IP address)
-
-				console.log("In Authorize...")
-
+				console.log("In Authorize...");
+			
 				if (!credentials) return null;
-
-				const res = await getUserByUsername(credentials.username);
-
-				const foundUser: User = await res.json();
-
-				if (!foundUser) return null;
-
-				const match = await bcrypt.compare(
-					credentials.password,
-					foundUser.password,
-				);
-
-				if (match) {
-					console.log('Found User was a match!');
-					console.log("id: " + foundUser.id);
-					return {
-						id: foundUser.id.toString(),
-					} satisfies UserInfo;
+			
+				const foundUser: User | null = await getUserByUsername(credentials.username);
+			
+				if (!foundUser) {
+					console.error("User not found");
+					return null;
 				}
-
-				console.log('Found User was NOT a match');
-				// Return null if user data could not be retrieved
-				return null;
+			
+				try {
+					const match = await bcrypt.compare(
+						credentials.password,
+						foundUser.password,
+					);
+			
+					if (match) {
+						console.log('Found User was a match!');
+						console.log("id: " + foundUser.id);
+						return {
+							id: foundUser.id.toString(),
+						};
+					}
+			
+					console.log('Found User was NOT a match');
+					// Return null if user data could not be retrieved
+					return null;
+				} catch (error) {
+					console.error("Error comparing passwords:", error);
+					return null;
+				}
 			},
+			
 		}),
 	],
 	callbacks: {

@@ -59,16 +59,14 @@ export default function LandingPage() {
       {/* Content Section 1 */}
       <div className="[background:var(--color-grey)]">
         <div className="max-w-4xl mx-auto py-16 px-4 mt-4">
-          <h2 className="[color:var(--color-white)] [font-family:var(--primary-font)] text-center text-6xl ">
+          <h2 className="[color:var(--color-white)] [font-family:var(--primary-font)] text-center text-5xl ">
             Streamline Your Reading
           </h2>
         </div>
         <div className="max-w-5xl pb-6 mx-auto">
           <p className="[color:var(--color-white)] text-center ml-16 mr-16 mb-8">
-            Our innovative technology simplifies the process of digesting
-            lengthy documents by extracting key insights and presenting them in
-            concise summaries. No more long hours spent sifting through pages of
-            text, our application will provide efficient and focused reading.
+            Our innovative technology simplifies documents by extracting key points and presenting them in
+            a summary. Our application will provide efficient and focused reading.
             Whether you&apos;re a professional seeking quick insights or a student
             managing heavy coursework, our tool is designed to help you save
             time and effort.
@@ -83,12 +81,10 @@ export default function LandingPage() {
             <div className="w-full xl:w-2/4 mx-2 flex items-center relative">
               <div className="w-full h-20 [background:var(--color-background-grey)] rounded-md"></div>
               <div className="absolute top-1/2 transform -translate-y-1/2 left-20 ">
-                <h3 className="[color:var(--color-black)] font-bold text-lg ">
+                <h3 className="[color:var(--color-black)]  text-md ">
                   Multiple File Types Accepted
                 </h3>
-                <p className="[color:var(--color-dark-grey)] mx-auto text-md">
-                  Easily summarize .pdf, .docx, and more
-                </p>
+                
               </div>
               <div className="absolute top-1/2 transform -translate-y-1/2 left-2">
                 <img
@@ -101,12 +97,10 @@ export default function LandingPage() {
             <div className="w-full xl:w-2/4 mx-2 flex items-center relative">
               <div className="w-full h-20 [background:var(--color-background-grey)] rounded-md"></div>
               <div className="absolute top-1/2 transform -translate-y-1/2 left-20">
-                <h3 className="[color:var(--color-black)] font-bold text-lg">
+                <h3 className="[color:var(--color-black)]  text-md">
                   Customizable Summaries
                 </h3>
-                <p className="[color:var(--color-dark-grey)] mx-auto text-md">
-                  Tailor summary length to your liking
-                </p>
+               
               </div>
               <div className="absolute top-1/2 transform -translate-y-1/2 left-2">
                 <img
@@ -119,12 +113,10 @@ export default function LandingPage() {
             <div className="w-full xl:w-2/4 mx-2 flex items-center relative">
               <div className="w-full h-20 [background:var(--color-background-grey)] rounded-md"></div>
               <div className="absolute top-1/2 transform -translate-y-1/2 left-20">
-                <h3 className="[color:var(--color-black)] font-bold text-lg">
+                <h3 className="[color:var(--color-black)]  text-md">
                   Available 24/7
                 </h3>
-                <p className="[color:var(--color-dark-grey)] mx-auto text-md">
-                  View your saved summaries
-                </p>
+               
               </div>
               <div className="absolute top-1/2 transform -translate-y-1/2 left-2">
                 <img
@@ -198,8 +190,8 @@ export default function LandingPage() {
       <div className="bg-gray-200 py-12">
         <div className="max-w-6xl mx-auto flex justify-between">
           <div className="w-2/3 pr-8">
-            <h2 className="text-5xl font-bold mb-6">Start Now!</h2>
-            <p className="text-gray-700 mb-6 mr-2">
+            <h2 className="text-5xl font-bold mb-6 px-10 [font-family:var(--primary-font)]">Start Now!</h2>
+            <p className="text-gray-700 mb-6 mr-2 px-10">
               Begin summarizing or view your saved translations.
             </p>
           </div>
@@ -225,7 +217,7 @@ export default function LandingPage() {
       </div>
 
       {/* Footer */}
-      <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
+      <footer className="flex flex-col justify-evenly [background:var(--color-grey)] h-[150px]">
         <div className="flex items-center justify-between">
           <div className="p-4 ml-8">
             <h3 className="[color:var(--font-primary)] ">PDFTDLR</h3>

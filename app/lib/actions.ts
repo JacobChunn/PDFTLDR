@@ -7,6 +7,7 @@ import * as bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+
 import formidable, {errors as formidableErrors} from 'formidable';
 import http from 'node:http';
 import IncomingForm from "formidable/Formidable";
@@ -45,13 +46,25 @@ export async function addUser(formData: UserFormData) {
       ${username}, ${hashedPassword}, ${firstname}, ${lastname}
     )
   `;
+  return { success: true };
   } catch (error) {
-    console.log(error);
-    return {
-      message: "Database Error: Failed to Add User.",
-    };
-  }
+    // Handle error
+    console.error("Failed to add user:", error);
+    return { success: false, message: "Failed to add user." };
+}
+}
 
-  revalidatePath("/profile");
-  redirect("/profile");
+export async function deleteUserById(userId: string): Promise<{ success: boolean; message?: string }> {
+  try {
+    // Execute a DELETE query to remove the user from the database
+    await sql`
+      DELETE FROM users
+      WHERE id = ${userId}
+    `;
+    console.log(`User with ID ${userId} deleted successfully`);
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete user:", error);
+    return { success: false, message: "Failed to delete user." };
+  }
 }

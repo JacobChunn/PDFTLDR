@@ -13,62 +13,55 @@ import { addUser } from '../lib/actions';
 import { useFormState } from 'react-dom';
 import { UserFormData, UserState } from '../lib/definitions';
 import InputWrapper from '../components/input-wrapper';
+import { signIn } from "next-auth/react";
+
 
 export default function SignUp() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
-	const [rememberMe, setRememberMe] = useState(false);
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [passwordError, setPasswordError] = useState('');
+    const [formData, setFormData] = useState<UserFormData>({
+        firstname: '',
+        lastname: '',
+        username: '',
+        password: ''
+    });
+    const [passwordError, setPasswordError] = useState('');
 
-	const initalFormData: UserFormData = {
-		firstname: null,
-		lastname: null,
-		username: null,
-		password: null
-	}
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
-	const [formData, setFormData] = useState(initalFormData);
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
 
+        // Check if password meets the minimum length requirement
+        if (formData.password && formData.password.length < 8) {
+            setPasswordError('Password must be at least 8 characters long');
+            return;
+        } else {
+            setPasswordError('');
+        }
 
-	const togglePasswordVisibility = () => {
-		setPasswordVisible(!passwordVisible);
-	};
+        try {
+            // Call addUser function to add the user
+            const result = await addUser(formData);
 
-	const toggleRememberMe = () => {
-		setRememberMe(!rememberMe);
-	};
+            if (result.success) {
+                // Call signIn after successfully adding the user
+                await signIn("credentials", { username: formData.username, password: formData.password, redirect: false });
+                // Redirect the user to the landing page or any other page
+                window.location.href = "/landing";
+            } else {
+                // Handle error
+                console.error("Failed to add user:", result.message);
+            }
+        } catch (error) {
+            console.error("Error adding user:", error);
+            // Handle any unexpected errors
+            // You may want to show a generic error message to the user
+        }
+    };
+	
 
-	const handleSubmit = (e: { preventDefault: () => void; }) => {
-		e.preventDefault();
-
-		console.log("Submit Clicked!")
-
-		// Check if password meets the minimum length requirement
-		// if (password.length < 8) {
-		//   setPasswordError('Password must be a combination of minimum 8 characters');
-		//   return;
-		// }
-
-		// Check if all fields are filled in and the checkbox is checked
-		// if ( firstName && lastName && username && password && rememberMe) {
-		const redirectUrl = "/landing"; // Change this to your desired URL
-
-		console.log(formData)
-
-		const errors = addUser(formData);
-
-		console.log(errors);
-
-		// Redirect to the specified URL
-		// window.location.href = redirectUrl;
-		// } else {
-		// Show an alert if any field is missing
-		//   alert("Please fill in all fields and accept the terms.");
-		// }
-	};
 
 	return (
 		<div>
