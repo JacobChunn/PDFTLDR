@@ -1,6 +1,8 @@
-import dotenv from "dotenv";
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = require('dotenv');
+  dotenv.config();
+}
 import OpenAI from "openai";
-dotenv.config();
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // you need to set this in your local .env file until this is deployed
