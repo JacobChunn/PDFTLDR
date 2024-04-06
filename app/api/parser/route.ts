@@ -1,50 +1,32 @@
-import officeParser from "officeparser";
-import fs from "fs";
-import path from "path";
-import { Buffer } from "buffer";
+import officeParser from 'officeparser';
+import { promises as fs } from 'fs';
 
-// Ensure that the /tmp directory exists
-const tempDir = path.join('/tmp', 'officeParserTemp', 'tempfiles');
-
-function ensureDirSync(dirpath : any) {
-  try {
-    return fs.mkdirSync(dirpath, { recursive: true });
-  } catch (err : any) {
-    if (err.code !== 'EEXIST') throw err; // Ignore the error if the directory already exists
-  }
-}
-
-// Ensuring the directory exists in the serverless function
-ensureDirSync(tempDir);
 
 export async function POST(request: Request) {
-  // Ensuring the directory exists during the runtime of your serverless function
-  const tempDir = path.join('/tmp', 'officeParserTemp', 'tempfiles');
-  ensureDirSync(tempDir);
+  const file = await fs.readFile(process.cwd() + '/app/data.json', 'utf8');
 
-  const formData = await request.formData();
-  const file = formData.get("file") as File;
-  console.log("File name:", file.name, "size:", file.size);
-  console.log("THIS: " + file);
+  try {
+    const formData = await request.formData();
+    const file = formData.get('file');
+    if (!file || typeof file !== 'object') {
+      throw new Error('File not found in the form data.');
+    }
 
-  if (
-    file.name.toLowerCase().endsWith(".pdf") ||
-    file.name.toLowerCase().endsWith(".docx")
-  ) {
-    const fileBuffer = Buffer.from(await file.arrayBuffer());
-    const data = await officeParser.parseOfficeAsync(fileBuffer);
-    const response = new Response(JSON.stringify(data));
-    console.log(response);
-    return response;
-  } else if (file.name.toLowerCase().endsWith(".txt")) {
-    const fileBuffer = Buffer.from(await file.arrayBuffer());
-    const data = fileBuffer.toString("utf-8");
-    const response = new Response(JSON.stringify(data));
-    console.log(response);
-    return response;
+    console.log('File name:', file.name, 'size:', file.size);
+  
+    if (file.name.toLowerCase().endsWith('.pdf') || file.name.toLowerCase().endsWith('.docx')) {
+      const fileBuffer = Buffer.from(await file.arrayBuffer());
+      const data = await officeParser.parseOfficeAsync(fileBuffer);
+      return new Response(JSON.stringify(data));
+    } else if (file.name.toLowerCase().endsWith('.txt')) {
+      const fileBuffer = Buffer.from(await file.arrayBuffer());
+      const text = fileBuffer.toString('utf-8');
+      return new Response(JSON.stringify({ text }));
+    } else {
+      return new Response('Unsupported file type', { status: 400 });
+    }
+  } catch (error) {
+    console.error('Error processing the file:', error);
+    return new Response('Internal Server Error', { status: 500 });
   }
 }
-
-// do response.data to get the text
-
-// });
