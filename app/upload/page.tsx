@@ -34,6 +34,8 @@ export default function Upload() {
     setSubmittedFile(file);
     setPreviewURL("");
 
+	if (!file.type) file.type = ' ';
+
     if (
       file.type !==
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
