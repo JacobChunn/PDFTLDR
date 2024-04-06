@@ -15,8 +15,13 @@ import {
 } from "react-icons/fa";
 import { fetchDocuments, deleteDocument, saveDocument } from "../lib/docs";
 import DataDisplay from "../components/DataDisplay";
+import { getSession, signOut } from "next-auth/react";
+import { getUserByUsername } from "../lib/data";
+import {deleteUserById} from "../lib/actions";
 
 export default function Profile() {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [uploadProfilePhoto, setUploadProfilePhoto] = useState<File | null>(
     null
@@ -98,7 +103,42 @@ export default function Profile() {
   const handleCloseModal = () => {
     setSelectedDocument(null);
   };
+  const handleDeleteProfile = () => {
+    setShowConfirmation(true);
+  };
+  const handleConfirmDelete = async () => {
+    setShowConfirmation(false);
+    try {
+      // Call the deleteUser function here
+      await deleteUser();
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    }
+  };
+  const handleCancelDelete = () => {
+    setShowConfirmation(false);
+  };
 
+  const deleteUser = async () => {
+    try {
+      const session = await getSession();
+  
+      if (!session || !session.user) {
+        throw new Error("User session not found");
+      }
+  
+      const userId = session.user.id;
+  
+      // Call the deleteUserById function with the user's ID
+      await deleteUserById(userId);
+  
+      // Sign out the user after deleting their profile
+      await signOut();
+      window.location.href = "/landing";
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    }
+  };
   return (
     <div>
       {/* Profile Section */}
@@ -241,6 +281,12 @@ export default function Profile() {
               {/* Save Button */}
               <button className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md px-6 py-3 hover:bg-blue-600 transition duration-300 block mx-auto mt-10">
                 Save
+              </button>
+               {/* Delete Button */}
+               <button 
+             onClick={handleDeleteProfile}
+              className=" [color:var(--color-blue)] font-bold rounded-md px-5 py-2  block mx-auto mt-10">
+                Delete Profile
               </button>
             </div>
           </div>
@@ -390,7 +436,28 @@ export default function Profile() {
           )}
         </div>
       </div>
-
+{/* Confirmation Dialog */}
+{showConfirmation && (
+  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-md">
+      <p>Are you sure you want to delete your profile?</p>
+      <div className="mt-4 flex justify-end">
+        <button
+          className="px-4 py-2 mr-4 border border-gray-300 rounded-md"
+          onClick={handleCancelDelete}
+        >
+          Cancel
+        </button>
+        <button
+          className="px-4 py-2 bg-red-500 text-white rounded-md"
+          onClick={handleConfirmDelete}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       {/* Footer */}
       <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
         <div className="flex items-center justify-between">
