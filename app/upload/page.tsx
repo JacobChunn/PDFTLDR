@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useRef } from "react";
 import { FaFileArrowUp } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaFacebookF } from "react-icons/fa";
@@ -11,6 +11,8 @@ import { useState } from "react";
 import axios from "axios";
 import { saveDocument } from "../lib/docs";
 import DataDisplay from "../components/DataDisplay";
+import SummaryTypeRadioButtons from "../components/SummaryTypeRadioButtons";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Upload() {
   const [previewURL, setPreviewURL] = useState("");
@@ -19,10 +21,12 @@ export default function Upload() {
   );
   const [fileName, setFileName] = useState("PDF, Docx, or text file");
   const [text, setText] = useState("");
-  const [summaryType, setSummaryType] = useState("Paragraph");
+  const summaryType = useRef("Paragraph");
   const [fileType, setFileType] = useState("Unknown");
   const [fileNameInput, setFileNameInput] = useState("");
   const [translatedDocument, setTranslatedDocument] = useState("");
+  const [summarizingTrue, setSummarizingTrue] = useState(false);
+  const [checkedVal, setCheckedVal] = useState("Paragraph");
 
   // @ts-ignore
   const handleFileChange = async (e) => {
@@ -74,7 +78,13 @@ export default function Upload() {
   ) => {
     try {
       // Save the document
-      await saveDocument(status, fileName, fileType, summarizedText, summaryType);
+      await saveDocument(
+        status,
+        fileName,
+        fileType,
+        summarizedText,
+        summaryType.current
+      );
       console.log("Document saved successfully");
       alert("Your document has been saved successfully");
     } catch (error) {
@@ -89,16 +99,20 @@ export default function Upload() {
       return;
     }
 
+    setTranslatedDocument("");
+    setPreviewURL("");
+    setSummarizingTrue(true);
+
     try {
       const GPTapiRequestData = {
-        option: summaryType,
+        option: summaryType.current,
         text: text,
       };
 
       const res = await axios.post("./api/openai", GPTapiRequestData);
 
-      setPreviewURL("");
       setTranslatedDocument(res.data);
+      setSummarizingTrue(false);
 
       const fileName = fileNameInput.trim();
       const fileType = submittedFile?.type || "Unknown";
@@ -132,8 +146,12 @@ export default function Upload() {
                 <DataDisplay
                   translatedDocument={translatedDocument}
                   //@ts-ignore
-                  summaryType={summaryType}
+                  summaryType={summaryType.current}
                 />
+              </div>
+            ) : summarizingTrue ? (
+              <div className="w-[500px] h-[500px] object-contain mr-[40px] border-4 p-2 overflow-scroll">
+                <LoadingSpinner />
               </div>
             ) : (
               <div></div>
@@ -176,48 +194,7 @@ export default function Upload() {
                 />
               </div>
               <div className="flex justify-between border-2 rounded-md [border-color:var(--color-dark-grey)] mb-16">
-                <div className="flex items-center border-r-2 [border-color:var(--color-dark-grey)] p-1 px-5">
-                  <input
-                    type="radio"
-                    id="paragraph"
-                    name="summaryType"
-                    value="Paragraph"
-                    checked={summaryType === "Paragraph"}
-                    onChange={() => setSummaryType("Paragraph")}
-                    className="w-6 h-6 border-2 [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4 hover:cursor-pointer"
-                  />
-                  <label htmlFor="paragraph" className="p-1">
-                    Paragraph
-                  </label>
-                </div>
-                <div className="flex items-center border-r-2 [border-color:var(--color-dark-grey)] p-1 px-5">
-                  <input
-                    type="radio"
-                    id="bulletPoints"
-                    name="summaryType"
-                    value="Bullet Points"
-                    className="w-6 h-6 border-2 [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4 hover:cursor-pointer"
-                    checked={summaryType === "Bullet Points"}
-                    onChange={() => setSummaryType("Bullet Points")}
-                  />
-                  <label htmlFor="bulletPoints" className="p-1">
-                    Bullet Points
-                  </label>
-                </div>
-                <div className="flex items-center [border-color:var(--color-dark-grey)] p-1 px-5">
-                  <input
-                    type="radio"
-                    id="sentence"
-                    name="summaryType"
-                    value="Sentence"
-                    checked={summaryType === "Sentence"}
-                    onChange={() => setSummaryType("Sentence")}
-                    className="w-6 h-6 border-2  [border-color:var(--color-dark-grey)] rounded-full p-1 mr-4 hover:cursor-pointer"
-                  />
-                  <label htmlFor="sentence" className="p-1">
-                    Sentence
-                  </label>
-                </div>
+                <SummaryTypeRadioButtons summaryType={summaryType} />
               </div>
               <button
                 onClick={handleSummarize}

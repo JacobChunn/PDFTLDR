@@ -36,14 +36,11 @@ export async function POST(request: Request) {
   return response;
 }
 
-async function chatGPTApiCall(
-  prompt: string,
-  text: string
-): Promise<Response> {
+async function chatGPTApiCall(prompt: string, text: string): Promise<Response> {
   try {
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: prompt + text }],
-      model: "gpt-4-0125-preview",
+      model: "gpt-3.5-turbo", // change to gpt-4-0125-preview for the latest model
     });
 
     const summary = completion.choices[0]?.message.content;
