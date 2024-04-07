@@ -9,19 +9,40 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
+import { signIn } from 'next-auth/react';
 
 export default function LogIn() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
+	const [username, setUsername] = useState('');
+  	const [password, setPassword] = useState('');
+	const [rememberMe, setRememberMe] = useState(false);
+
 
 	const togglePasswordVisibility = () => {
 		setPasswordVisible(!passwordVisible);
 	};
 
-	const [rememberMe, setRememberMe] = useState(false);
-
 	const toggleRememberMe = () => {
 		setRememberMe(!rememberMe);
 	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+	
+		const result = await signIn('credentials', {
+		  username,
+		  password,
+		  redirect: false,
+		});
+
+		if (result?.ok) {
+			// Authentication successful, redirect to the desired page
+			window.location.href = '/landing';
+		  } else {
+			// Authentication failed, handle the error
+			console.error('Authentication failed');
+		  }
+		};
 
 	return (
 		<div>
@@ -35,16 +56,18 @@ export default function LogIn() {
 					{/* Log-in form */}
 					<div className="flex-1 flex items-center justify-center">
 						<div className="w-[500px]">
-							<form className="space-y-4">
+							<form className="space-y-4" onSubmit={handleSubmit}>
 								<h1 className="text-4xl font-bold text-left">Log In</h1>
 
 								{/* Email input */}
 								<div>
 									<label htmlFor="username" className="block font-medium">Username</label>
 									<input
-										type="username"
+										type="text"
 										id="username"
 										className="w-full border rounded-md px-3 py-2 mt-1"
+										value={username}
+                						onChange={(e) => setUsername(e.target.value)}
 										required
 									/>
 								</div>
@@ -56,6 +79,8 @@ export default function LogIn() {
 										type={passwordVisible ? "text" : "password"}
 										id="password"
 										className="w-full border rounded-md px-3 py-2 mt-1 pr-10"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
 										required
 									/>
 
@@ -87,12 +112,6 @@ export default function LogIn() {
 								{/* Log-in button */}
 								<button type="submit" className="w-full [background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md px-3 py-2 mt-4 hover:bg-blue-600 transition duration-300">Log In</button>
 							</form>
-
-							{/* Placeholder buttons */}
-							<div className="flex justify-between mt-8">
-								<button className="w-[250px] [background:var(--color-white)] [color:var(--color-blue)] font-bold rounded-md px-3 py-2 hover:bg-blue-600 hover:text-white hover:border-transparent transition duration-300 border-blue-500 border-solid border mr-2">Placeholder</button>
-								<button className="w-[250px] [background:var(--color-white)] [color:var(--color-blue)] font-bold rounded-md px-3 py-2 hover:bg-blue-600 hover:text-white hover:border-transparent transition duration-300 border-blue-500 border-solid border">Placeholder</button>
-							</div>
 
 							{/* Sign-Up link */}
 							<div className="mt-4 text-center">

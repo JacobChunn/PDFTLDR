@@ -8,7 +8,8 @@ export async function middleware(req: NextRequest) {
 	const unprotectedRoutes = [
 		"/",
 		"/landing",
-		"/signup"
+		"/signup",
+		"/login"
 	];
 
 	const unprotectedBeginningRoutes = [
