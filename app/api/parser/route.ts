@@ -1,10 +1,6 @@
 import officeParser from 'officeparser';
-import { promises as fs } from 'fs';
-
 
 export async function POST(request: Request) {
-  const file = await fs.readFile(process.cwd() + '/app/data.json', 'utf8');
-
   try {
     const formData = await request.formData();
     const file = formData.get('file');

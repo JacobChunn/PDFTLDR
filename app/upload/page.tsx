@@ -27,6 +27,7 @@ export default function Upload() {
   const [translatedDocument, setTranslatedDocument] = useState("");
   const [summarizingTrue, setSummarizingTrue] = useState(false);
   const [checkedVal, setCheckedVal] = useState("Paragraph");
+  const [saveAsError, setSaveAsError] = useState("");
 
   // @ts-ignore
   const handleFileChange = async (e) => {
@@ -99,6 +100,13 @@ export default function Upload() {
     if (text === "") {
       console.log("No text to summarize");
       return;
+    }
+
+    if (fileNameInput.trim() === "") {
+      setSaveAsError("Please enter a name for your document");
+      return;
+    } else {
+      setSaveAsError("");
     }
 
     setTranslatedDocument("");
@@ -201,10 +209,14 @@ export default function Upload() {
               <button
                 onClick={handleSummarize}
                 disabled={text == ""}
-                className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md p-2 px-6 w-full hover:bg-blue-600 transition duration-300"
+                className="[background:var(--color-blue)] [color:var(--color-white)] mb-4 font-bold rounded-md p-2 px-6 w-full hover:bg-blue-600 transition duration-300"
               >
                 Summarize
               </button>
+
+              {/* Display error message */}
+                <p className="text-red-600">{saveAsError}</p>
+
             </div>
           </div>
         </main>
