@@ -6,7 +6,7 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { search } from "react-icons-kit/feather/search";
 import { Trash2 } from "react-feather";
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 import {
   FaYoutube,
   FaFacebookF,
@@ -15,10 +15,10 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { fetchDocuments, deleteDocument, saveDocument } from "../lib/docs";
-import { fetchUsername} from "../lib/docs";
+import { fetchUsername } from "../lib/docs";
 import DataDisplay from "../components/DataDisplay";
 import { getSession, signOut } from "next-auth/react";
-import {deleteUserById} from "../lib/actions";
+import { deleteUserById } from "../lib/actions";
 
 export default function Profile() {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -139,16 +139,16 @@ export default function Profile() {
   const deleteUser = async () => {
     try {
       const session = await getSession();
-  
+
       if (!session || !session.user) {
         throw new Error("User session not found");
       }
-  
+
       const userId = session.user.id;
-  
+
       // Call the deleteUserById function with the user's ID
       await deleteUserById(userId);
-  
+
       // Sign out the user after deleting their profile
       await signOut();
       window.location.href = "/landing";
@@ -159,7 +159,7 @@ export default function Profile() {
   return (
     <div>
       {/* Profile Section */}
-      <div className="h-screen [background:var(--color-white)] flex items-center justify-center">
+      <div className="[background:var(--color-white)] flex items-center justify-center">
         <div className="w-1/5 mx-auto flex flex-col" style={{ height: "65%" }}>
           {/* Profile Photo Section */}
           <div className="mb-8 relative">
@@ -232,11 +232,11 @@ export default function Profile() {
                   </label>
                 </div>
                 <div
-    id="username"
-    className="w-full border rounded-md px-4 py-2"
-  >
-    {firstName}
-  </div>
+                  id="username"
+                  className="w-full border rounded-md px-4 py-2"
+                >
+                  {firstName}
+                </div>
               </div>
 
               {/* Last Name */}
@@ -247,36 +247,37 @@ export default function Profile() {
                   </label>
                 </div>
                 <div
-    id="username"
-    className="w-full border rounded-md px-4 py-2"
-  >
-    {lastName}
-  </div>
+                  id="username"
+                  className="w-full border rounded-md px-4 py-2"
+                >
+                  {lastName}
+                </div>
               </div>
 
               {/* Username */}
               <div className="flex items-center mb-4">
                 <div className="w-32">
                   <label htmlFor="username" className="font-medium">
-                    Username 
+                    Username
                   </label>
                 </div>
                 <div
-    id="username"
-    className="w-full border rounded-md px-4 py-2"
-  >
-    {savedUsername}
-  </div>
+                  id="username"
+                  className="w-full border rounded-md px-4 py-2"
+                >
+                  {savedUsername}
+                </div>
               </div>
 
               {/* Save Button */}
               <button className="[background:var(--color-blue)] [color:var(--color-white)] font-bold rounded-md px-6 py-3 hover:bg-blue-600 transition duration-300 block mx-auto mt-10">
                 Save
               </button>
-               {/* Delete Button */}
-               <button 
-             onClick={handleDeleteProfile}
-              className=" [color:var(--color-blue)] font-bold rounded-md px-5 py-2  block mx-auto mt-10">
+              {/* Delete Button */}
+              <button
+                onClick={handleDeleteProfile}
+                className=" [color:var(--color-blue)] font-bold rounded-md px-5 py-2  block mx-auto mt-10"
+              >
                 Delete Profile
               </button>
             </div>
@@ -337,47 +338,50 @@ export default function Profile() {
               style={{ maxHeight: "calc(100vh - 400px)" }}
             >
               {/* Saved Documents */}
-              {savedDocuments.
-              filter((doc) => doc.file_name.toLowerCase()
-              .includes(searchText.toLowerCase()))
-              .map((document, index) => (
-                <div
-                  key={index}
-                  className="border-t border-gray-400 mt-1 pt-1"
-                  style={{ height: "120px" }}
-                >
-                  <div className="flex items-center">
-                    <div className="mt-10 w-full">
-                      <div className="ml-10">
+              {savedDocuments
+                .filter((doc) =>
+                  doc.file_name.toLowerCase().includes(searchText.toLowerCase())
+                )
+                .map((document, index) => (
+                  <div
+                    key={index}
+                    className="border-t border-gray-400 mt-1 pt-1"
+                    style={{ height: "120px" }}
+                  >
+                    <div className="flex items-center">
+                      <div className="mt-10 w-full">
+                        <div className="ml-10">
+                          <button
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+                            onClick={() => handleViewDocument(document)}
+                          >
+                            <span>View</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div className="mt-10 w-full">
+                        <h3 className="font-bold">{document.file_name}</h3>
+                      </div>
+                      <div className="mt-10 w-full">
+                        <h3 className="font-bold">
+                          {new Date(document.date_created).toLocaleDateString(
+                            "en-US"
+                          )}
+                        </h3>
+                      </div>
+                      <div className="mt-10 w-full">
+                        <h3 className="font-bold">{document.file_type}</h3>
+                      </div>
+                      <div style={{ marginRight: "40px", marginTop: "40px" }}>
                         <button
-                          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-                          onClick={() => handleViewDocument(document)}
+                          onClick={() => handleDeleteDocument(document.id)}
                         >
-                          <span>View</span>
+                          <Trash2 />
                         </button>
                       </div>
                     </div>
-                    <div className="mt-10 w-full">
-                      <h3 className="font-bold">{document.file_name}</h3>
-                    </div>
-                    <div className="mt-10 w-full">
-                      <h3 className="font-bold">
-                        {new Date(document.date_created).toLocaleDateString(
-                          "en-US"
-                        )}
-                      </h3>
-                    </div>
-                    <div className="mt-10 w-full">
-                      <h3 className="font-bold">{document.file_type}</h3>
-                    </div>
-                    <div style={{ marginRight: "40px", marginTop: "40px" }}>
-                      <button onClick={() => handleDeleteDocument(document.id)}>
-                        <Trash2 />
-                      </button>
-                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 
@@ -427,28 +431,28 @@ export default function Profile() {
           )}
         </div>
       </div>
-{/* Confirmation Dialog */}
-{showConfirmation && (
-  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-6 rounded-md">
-      <p>Are you sure you want to delete your profile?</p>
-      <div className="mt-4 flex justify-end">
-        <button
-          className="px-4 py-2 mr-4 border border-gray-300 rounded-md"
-          onClick={handleCancelDelete}
-        >
-          Cancel
-        </button>
-        <button
-          className="px-4 py-2 bg-red-500 text-white rounded-md"
-          onClick={handleConfirmDelete}
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+      {/* Confirmation Dialog */}
+      {showConfirmation && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-md">
+            <p>Are you sure you want to delete your profile?</p>
+            <div className="mt-4 flex justify-end">
+              <button
+                className="px-4 py-2 mr-4 border border-gray-300 rounded-md"
+                onClick={handleCancelDelete}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+                onClick={handleConfirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Footer */}
       <footer className="flex flex-col justify-evenly bg-gray-600 h-[150px]">
         <div className="flex items-center justify-between">
