@@ -6,6 +6,7 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { search } from "react-icons-kit/feather/search";
 import { Trash2 } from "react-feather";
+import { useSession } from 'next-auth/react';
 import {
   FaYoutube,
   FaFacebookF,
@@ -14,9 +15,9 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { fetchDocuments, deleteDocument, saveDocument } from "../lib/docs";
+import { fetchUsername} from "../lib/docs";
 import DataDisplay from "../components/DataDisplay";
 import { getSession, signOut } from "next-auth/react";
-import { getUserByUsername } from "../lib/data";
 import {deleteUserById} from "../lib/actions";
 
 export default function Profile() {
@@ -27,6 +28,9 @@ export default function Profile() {
     null
   );
   const [savedDocuments, setSavedDocuments] = useState<any[]>([]);
+  const [savedUsername, setSavedUsername] = useState<any[]>([]);
+  const [firstName, setFirstName] = useState<any[]>([]);
+  const [lastName, setLastName] = useState<any[]>([]);
   const [deletingDocumentId, setDeletingDocumentId] = useState<number | null>(
     null
   );
@@ -53,8 +57,21 @@ export default function Profile() {
         console.error("Failed to fetch saved documents:", error);
       }
     };
-
+    const fetchSavedUsername = async () => {
+      try {
+        const usernameResponse = await fetchUsername(); // Fetch username from the database
+        const usernameData = usernameResponse.rows[0]?.username;
+        const FirstNamedata = usernameResponse.rows[0]?.firstname;
+        const LastNamedata = usernameResponse.rows[0]?.lastname;
+        setSavedUsername(usernameData);
+        setFirstName(FirstNamedata);
+        setLastName(LastNamedata);
+      } catch (error) {
+        console.error("Failed to fetch saved username:", error);
+      }
+    };
     fetchSavedDocuments();
+    fetchSavedUsername();
   }, []);
 
   const [searchText, setSearchText] = useState("");
@@ -147,7 +164,7 @@ export default function Profile() {
           {/* Profile Photo Section */}
           <div className="mb-8 relative">
             {/* Header */}
-            <h2 className="text-left [color:var(--color-black)] font-bold text-xl mb-6">
+            <h2 className="text-center [color:var(--color-black)] font-bold text-xl mb-6">
               Profile Photo
             </h2>
 
@@ -202,7 +219,7 @@ export default function Profile() {
           <div>
             {/* Header */}
             <h2 className="text-left [color:var(--color-black)] font-bold text-xl mb-6">
-              User Details
+              {firstName}'s details
             </h2>
 
             {/* User Details Form */}
@@ -214,12 +231,12 @@ export default function Profile() {
                     First Name
                   </label>
                 </div>
-                <input
-                  type="text"
-                  id="firstName"
-                  className="w-full border rounded-md px-4 py-2"
-                  required
-                />
+                <div
+    id="username"
+    className="w-full border rounded-md px-4 py-2"
+  >
+    {firstName}
+  </div>
               </div>
 
               {/* Last Name */}
@@ -229,53 +246,27 @@ export default function Profile() {
                     Last Name
                   </label>
                 </div>
-                <input
-                  type="text"
-                  id="lastName"
-                  className="w-full border rounded-md px-4 py-2"
-                  required
-                />
+                <div
+    id="username"
+    className="w-full border rounded-md px-4 py-2"
+  >
+    {lastName}
+  </div>
               </div>
 
               {/* Username */}
               <div className="flex items-center mb-4">
                 <div className="w-32">
                   <label htmlFor="username" className="font-medium">
-                    Username
+                    Username 
                   </label>
                 </div>
-                <input
-                  type="text"
-                  id="username"
-                  className="w-full border rounded-md px-4 py-2"
-                  required
-                />
-              </div>
-
-              {/* Password */}
-              <div className="flex items-center mb-4">
-                <div className="w-32">
-                  <label htmlFor="password" className="font-medium">
-                    Password
-                  </label>
-                </div>
-                <div className="relative w-full">
-                  <input
-                    type={passwordVisible ? "text" : "password"}
-                    id="password"
-                    className="w-full border rounded-md px-4 py-2 pr-10"
-                    required
-                  />
-
-                  {/* Eye icon */}
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 flex items-center px-3 focus:outline-none"
-                    onClick={togglePasswordVisibility}
-                  >
-                    <Icon icon={passwordVisible ? eyeOff : eye} size={20} />
-                  </button>
-                </div>
+                <div
+    id="username"
+    className="w-full border rounded-md px-4 py-2"
+  >
+    {savedUsername}
+  </div>
               </div>
 
               {/* Save Button */}

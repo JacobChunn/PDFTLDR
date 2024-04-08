@@ -64,6 +64,33 @@ export async function fetchDocuments() {
     throw error;
   }
 }
+export async function fetchUsername() {
+
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+	  console.log("Session was unable to be retrieved!");
+	  throw new Error("Session was unable to be retrieved!");
+	}
+  
+	const userID = Number(session.user.id);
+
+  try {
+    // Fetch username from the database
+    const username = await sql`
+            SELECT username, 
+            firstname, 
+            lastname,
+            password
+            FROM users
+			WHERE id = ${userID}
+        `;
+    return username;
+  } catch (error) {
+    console.error("Failed to fetch username:", error);
+    throw error;
+  }
+}
 
 export async function deleteDocument(documentId: number) {
   try {
