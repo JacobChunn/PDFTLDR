@@ -1,5 +1,5 @@
-if (process.env.NODE_ENV !== 'production') {
-  const dotenv = require('dotenv');
+if (process.env.NODE_ENV !== "production") {
+  const dotenv = require("dotenv");
   dotenv.config();
 }
 import OpenAI from "openai";
@@ -42,7 +42,7 @@ async function chatGPTApiCall(prompt: string, text: string): Promise<Response> {
   try {
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: prompt + text }],
-      model: "gpt-3.5-turbo", // change to gpt-4-0125-preview for the latest model
+      model: "gpt-4-0125-preview", // change to gpt-4-0125-preview for the latest model
     });
 
     const summary = completion.choices[0]?.message.content;
