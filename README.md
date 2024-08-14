@@ -50,10 +50,13 @@ PDFTLDR serves to summarize wordy or lengthy documents into one of three formats
 
 ### TECH STACK
 
-- React with Tailwind CSS
+- Tailwind CSS
 - Next.js with Typescript
 - Vercel for deployment
 - Postgres for database
+- Cypress for unit testing
+
+NOTE: While Cypress is normally a end-to-end testing framework, we used it for unit testing since it worked better with files than alternatives such as Jest
 
 
 
